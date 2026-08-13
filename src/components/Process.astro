@@ -3,43 +3,31 @@
  * Numbered because the content genuinely is a sequence: each step depends on
  * the one before it, and a buyer reads it to audit the post-harvest chain.
  */
-const steps = [
-	{
-		title: "Regenerative growing",
-		body: "Cacao under native shade trees, mixed with fruit and timber species. Soil cover stays undisturbed so the midges that pollinate the flower survive.",
-		img: "/media/process-1.jpg",
-	},
-	{
-		title: "Harvest",
-		body: "Pods cut by hand at colour break, plot by plot. Under-ripe and diseased pods are separated before they ever reach the boxes.",
-		img: "/media/process-2.jpg",
-	},
-	{
-		title: "Centralized fermentation",
-		body: "Wooden cascade boxes at one facility. Turned on schedule, temperature and pH logged per batch across five to six days.",
-		img: "/media/process-3.jpg",
-	},
-	{
-		title: "Drying",
-		body: "Sun-dried on raised beds over six to eight days, raked in a fixed rotation to bring moisture down without case hardening.",
-		img: "/media/process-4.jpg",
-	},
-	{
-		title: "Quality control and lot release",
-		body: "Cut test, moisture and bean count on every lot. The result travels with the beans as a lot code, not a claim.",
-		img: "/media/process-5.jpg",
-	},
+import { copy, type Locale } from "../i18n";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].process;
+const images = [
+	"/media/process-1.jpg",
+	"/media/process-2.jpg",
+	"/media/process-3.jpg",
+	"/media/process-4.jpg",
+	"/media/process-5.jpg",
 ];
 ---
 
 <section class="band" id="process">
 	<div class="shell">
-		<h2 class="t-h2 head" data-reveal>From canopy to lot code</h2>
+		<h2 class="t-h2 head" data-reveal>{t.title}</h2>
 
 		<div class="scrolly" data-scrolly>
 			<ol>
 				{
-					steps.map((step, i) => (
+					t.steps.map((step, i) => (
 						<li data-reveal data-step={i} style={`--reveal-delay:${i * 70}ms`}>
 							<span class="num t-data">{String(i + 1).padStart(2, "0")}</span>
 							<div class="text">
@@ -49,7 +37,7 @@ const steps = [
 							<figure class="media" data-img-reveal data-figure={i}>
 								{/* TODO: real process photograph, 800x600 */}
 								<img
-									src={step.img}
+									src={images[i]}
 									alt={step.title}
 									width="800"
 									height="600"

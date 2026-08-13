@@ -1,0 +1,143 @@
+---
+import "../styles/global.css";
+
+import Allies from "../components/Allies.astro";
+import Contact from "../components/Contact.astro";
+import EnquiryModal from "../components/EnquiryModal.astro";
+import Flower from "../components/Flower.astro";
+import Footer from "../components/Footer.astro";
+import Hero from "../components/Hero.astro";
+import Manifesto from "../components/Manifesto.astro";
+import Nav from "../components/Nav.astro";
+import Origin from "../components/Origin.astro";
+import Process from "../components/Process.astro";
+import Product from "../components/Product.astro";
+import Traceability from "../components/Traceability.astro";
+import ValueProp from "../components/ValueProp.astro";
+import { copy, type Locale } from "../i18n";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang];
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="apple-touch-icon" href="/favicon.png" />
+		<title>{t.meta.title}</title>
+		<meta name="description" content={t.meta.description} />
+		<meta property="og:title" content={t.meta.title} />
+		<meta property="og:description" content={t.meta.description} />
+		<meta property="og:type" content="website" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="alternate" hreflang="en" href="/" />
+		<link rel="alternate" hreflang="es" href="/es/" />
+		<link rel="alternate" hreflang="x-default" href="/" />
+
+		<link rel="preload" href="/fonts/haqmuse.otf" as="font" type="font/otf" crossorigin />
+		<link rel="preload" href="/fonts/AbroSans-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+		{/* Runs before first paint: reveal styles only apply when JS is alive. */}
+		<script is:inline>
+			document.documentElement.classList.add("js");
+		</script>
+	</head>
+
+	<body>
+		<a href="#origin" class="skip">{t.skip}</a>
+
+		<Nav lang={lang} />
+
+		<main>
+			<Hero lang={lang} />
+			<ValueProp lang={lang} />
+			<Manifesto lang={lang} />
+			<Origin lang={lang} />
+			<Flower lang={lang} />
+			<Process lang={lang} />
+			<Product lang={lang} />
+			<Traceability lang={lang} />
+			<Allies lang={lang} />
+			<Contact lang={lang} />
+		</main>
+
+		<Footer lang={lang} />
+		<EnquiryModal lang={lang} />
+
+		<style>
+			.skip {
+				position: absolute;
+				inset-block-start: -100%;
+				inset-inline-start: 1rem;
+				z-index: 100;
+				background: var(--color-orange);
+				color: var(--color-blue);
+				padding: 0.75rem 1.25rem;
+				font-size: 0.8125rem;
+				font-weight: 700;
+			}
+
+			.skip:focus {
+				inset-block-start: 1rem;
+			}
+		</style>
+
+		<script>
+			document.querySelectorAll("[data-stagger]").forEach((block) => {
+				block.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el, i) => {
+					if (!el.style.getPropertyValue("--reveal-delay")) {
+						el.style.setProperty("--reveal-delay", `${i * 90}ms`);
+					}
+				});
+			});
+
+			const targets = document.querySelectorAll("[data-reveal], [data-img-reveal], [data-draw]");
+			const imageTargets = document.querySelectorAll<HTMLElement>("[data-img-reveal]");
+			const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+			const revealAll = () => targets.forEach((el) => el.classList.add("is-in"));
+
+			imageTargets.forEach((target) => {
+				const image = target.querySelector<HTMLImageElement>("img");
+				const revealImage = () => target.classList.add("is-in");
+
+				if (!image || image.complete) {
+					revealImage();
+					return;
+				}
+
+				image.addEventListener("load", revealImage, { once: true });
+				image.addEventListener("error", revealImage, { once: true });
+			});
+
+			if (reduce || !("IntersectionObserver" in window)) {
+				revealAll();
+			} else {
+				let ran = false;
+				const observer = new IntersectionObserver(
+					(entries) => {
+						ran = true;
+						entries.forEach((entry) => {
+							if (!entry.isIntersecting) return;
+							entry.target.classList.add("is-in");
+							observer.unobserve(entry.target);
+						});
+					},
+					{ threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
+				);
+
+				targets.forEach((el) => observer.observe(el));
+				window.setTimeout(() => {
+					if (!ran) revealAll();
+				}, 2500);
+			}
+		</script>
+	</body>
+</html>

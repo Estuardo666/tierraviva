@@ -643,3 +643,23 @@ y verifica que la clase y la opacidad se resuelven.
   Cada letra puede convertirse en una imagen inline durante hover, ocultando
   solo ese glifo. Sin subrayado, con escala tipográfica 20% mayor y wrapping por
   palabras. En touch y reduced motion la frase queda estática y completa.
+
+---
+
+# Ronda 7: sitio bilingüe y drawer móvil
+
+- Inglés permanece como idioma principal en `/`; la versión completa en español
+  vive en `/es/`. Ambas rutas se generan de forma estática y comparten una sola
+  composición mediante `src/layouts/LandingPage.astro`.
+- El selector `EN / ES` vive siempre en el header, también en móvil. El idioma
+  activo usa `aria-current="page"`; cada enlace declara `lang` y `hreflang`.
+- Cada ruta entrega su propio atributo `lang`, título, descripción, Open Graph,
+  labels accesibles, textos de validación y atributos alt. No hay sustitución de
+  contenido por JavaScript ni parpadeo de idioma al cargar.
+- El drawer móvil deja de aparecer y desaparecer de inmediato. La entrada usa
+  `opacity` y `transform` durante 240 ms con curva de drawer
+  `cubic-bezier(0.32, 0.72, 0, 1)`; los enlaces entran con un stagger corto.
+  Al cerrar, el atributo `hidden` se aplica solo cuando termina la transición.
+- El botón de menú se transforma en cierre mediante tres líneas. Escape cierra
+  el drawer, devuelve el foco al disparador y `inert` evita interacción durante
+  la salida. `prefers-reduced-motion` elimina el desplazamiento y la espera.

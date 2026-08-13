@@ -63,3 +63,44 @@ test('lazy images reveal after entering the viewport', async ({ page }) => {
     await expect(media.nth(i)).not.toHaveCSS('opacity', '0');
   }
 });
+
+test('Spanish route renders localized content and language state', async ({ page }) => {
+  const response = await page.goto('/es/');
+  expect(response?.status()).toBe(200);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(page).toHaveTitle(/Cacao regenerativo desde el origen/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Cacao regenerativo desde el origen');
+  await expect(page.getByRole('navigation', { name: 'Navegación principal' })).toContainText('Trazabilidad');
+  await expect(page.locator('.nav-language a[lang="es"]')).toHaveAttribute('aria-current', 'page');
+
+  await page.getByText('Especificación completa', { exact: true }).click();
+  await expect(page.getByText('Cultivo y poscosecha', { exact: true })).toBeVisible();
+
+  const requestButton = page.getByRole('button', { name: 'Solicitar muestras' }).first();
+  await expect(requestButton).toBeVisible();
+  await requestButton.click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Cuéntanos qué necesitas comprar' })).toBeVisible();
+  await page.getByRole('button', { name: 'Enviar consulta' }).click();
+  await expect(page.getByText('Este campo es obligatorio.').first()).toBeVisible();
+});
+
+test('mobile drawer opens and closes with an interruptible transition', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/es/');
+
+  const toggle = page.locator('[data-nav-toggle]');
+  const drawer = page.locator('[data-nav-drawer]');
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(drawer).toHaveAttribute('data-open', '');
+  await expect(drawer).toBeVisible();
+  await expect(drawer.getByRole('link', { name: 'Origen' })).toBeVisible();
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(drawer).not.toHaveAttribute('data-open', '');
+  expect(await drawer.getAttribute('hidden')).toBeNull();
+  await expect(drawer).toHaveAttribute('hidden', '', { timeout: 1000 });
+});

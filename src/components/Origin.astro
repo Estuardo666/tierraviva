@@ -1,27 +1,28 @@
 ---
+import { copy, type Locale } from "../i18n";
+
 const photo = "/media/origin.jpg";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].origin;
 ---
 
 <section class="band" id="origin">
 	<div class="shell split" data-stagger>
 		<figure class="media" data-reveal data-img-reveal>
 			<!-- TODO: real farm photograph, 1200x1500 -->
-			<img src={photo} alt="Cacao trees under native shade on the Tierra Viva farm in Manabí." width="1200" height="1500" loading="lazy" decoding="async" />
+			<img src={photo} alt={t.alt} width="1200" height="1500" loading="lazy" decoding="async" />
 		</figure>
 
 		<div class="copy" data-reveal style="--reveal-delay:80ms">
-			<h2 class="t-h2">Founded in 2025, on the coast of Ecuador</h2>
-			<p class="t-body">
-				Tierra Viva works in Chone, in the province of Manabí, on the Pacific side of
-				Ecuador. The company was formed to change where the value of cacao is captured:
-				to structure quality at origin instead of shipping raw beans and buying the
-				grading back.
-			</p>
-			<p class="t-body">
-				That means investing in the post-harvest stage most farms cannot fund alone,
-				and paying growers against measured quality rather than a commodity reference.
-			</p>
-			<p class="pending">Founding narrative to be completed with the client.</p>
+			<h2 class="t-h2">{t.title}</h2>
+			<p class="t-body">{t.body1}</p>
+			<p class="t-body">{t.body2}</p>
+			<p class="pending">{t.pending}</p>
 		</div>
 	</div>
 </section>

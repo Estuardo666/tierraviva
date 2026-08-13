@@ -4,75 +4,48 @@
  * Four headline specs carry the section; the rest sit in three grouped
  * clusters behind a disclosure rather than a long hairline-ruled table.
  */
-const headline = [
-	{ v: "≤ 7.0%", k: "Moisture" },
-	{ v: "≥ 85%", k: "Well fermented" },
-	{ v: "1 t", k: "Minimum order" },
-	{ v: "FOB GYE", k: "Incoterm" },
-];
+import { copy, type Locale } from "../i18n";
 
-const groups = [
-	{
-		title: "Growing and post-harvest",
-		rows: [
-			["Variety", "Nacional, fino de aroma"],
-			["Origin", "Chone, Manabí, Ecuador"],
-			["Fermentation", "5 to 6 days, cascade boxes"],
-			["Drying", "Sun-dried, 6 to 8 days"],
-		],
-	},
-	{
-		title: "Bean and quality",
-		rows: [
-			["Moisture", "≤ 7.0%"],
-			["Cut test, well fermented", "≥ 85%"],
-			["Bean count", "90 to 100 per 100 g"],
-			["Defects", "≤ 3%"],
-		],
-	},
-	{
-		title: "Commercial",
-		rows: [
-			["Presentation", "65 kg jute, food-grade liner"],
-			["Minimum order", "1 tonne"],
-			["Incoterms", "FOB Guayaquil or EXW Chone"],
-			["Harvest windows", "Mar to Jul, Oct to Dec"],
-		],
-	},
-];
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].product;
+const request = copy[lang].nav.request;
 ---
 
 <section class="band band-dark" id="cacao">
 	<div class="shell" data-stagger>
 		<div class="head" data-reveal>
-			<p class="t-eyebrow">The cacao</p>
-			<h2 class="t-h2">Nacional, fino de aroma</h2>
-			<p class="mock-flag">Sample figures. Final specification pending laboratory results.</p>
+			<p class="t-eyebrow">{t.eyebrow}</p>
+			<h2 class="t-h2">{t.title}</h2>
+			<p class="mock-flag">{t.mock}</p>
 		</div>
 
 		<div class="tiles" data-reveal style="--reveal-delay:80ms">
 			{
-				headline.map((t) => (
+				t.headline.map(([value, key]) => (
 					<div class="tile">
-						<p class="v t-data">{t.v}</p>
-						<p class="k">{t.k}</p>
+						<p class="v t-data">{value}</p>
+						<p class="k">{key}</p>
 					</div>
 				))
 			}
 		</div>
 
 		<p class="sensory t-data" data-reveal style="--reveal-delay:140ms">
-			<span>Notes</span> Floral, ripe fruit, light nuts, low bitterness
+			<span>{t.sensoryLabel}</span> {t.sensory}
 		</p>
 
 		<details data-reveal style="--reveal-delay:200ms">
 			<summary>
-				<span class="open-label">Full specification</span>
-				<span class="close-label">Hide specification</span>
+				<span class="open-label">{t.open}</span>
+				<span class="close-label">{t.close}</span>
 			</summary>
 			<div class="groups">
 				{
-					groups.map((g) => (
+					t.groups.map((g) => (
 						<div class="group">
 							<h3>{g.title}</h3>
 							<dl>
@@ -90,7 +63,7 @@ const groups = [
 		</details>
 
 		<button type="button" class="btn btn-outline sheet-cta" data-enquiry-open data-reveal style="--reveal-delay:240ms">
-			Request samples
+			{request}
 		</button>
 	</div>
 </section>

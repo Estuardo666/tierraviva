@@ -1,5 +1,6 @@
 ---
 import Credentials from "./Credentials.astro";
+import { copy, type Locale } from "../i18n";
 
 /**
  * Centred hero over a muted background video (client direction, Cuvée reference).
@@ -9,6 +10,13 @@ import Credentials from "./Credentials.astro";
  */
 const poster = "/media/hero-poster.jpg";
 const hasVideo = true;
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].hero;
 ---
 
 <section class="hero" id="top">
@@ -27,17 +35,15 @@ const hasVideo = true;
 	</div>
 
 	<div class="shell hero-content hero-load">
-		<p class="hero-eyebrow" style="--hero-delay:120ms">Chone, Manabí · Ecuador</p>
-		<h1 class="t-display" style="--hero-delay:220ms">Regenerative Cacao at Origin</h1>
-		<p class="hero-sub" style="--hero-delay:340ms">
-			From the land of Manabí, Ecuador, to the world.
-		</p>
+		<p class="hero-eyebrow" style="--hero-delay:120ms">{t.eyebrow}</p>
+		<h1 class="t-display" style="--hero-delay:220ms">{t.title}</h1>
+		<p class="hero-sub" style="--hero-delay:340ms">{t.subtitle}</p>
 		<div style="--hero-delay:440ms">
-			<a href="#origin" class="btn btn-primary">Explore the origin</a>
+			<a href="#origin" class="btn btn-primary">{t.cta}</a>
 		</div>
 	</div>
 
-	<Credentials />
+	<Credentials lang={lang} />
 </section>
 
 <style>

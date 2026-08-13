@@ -1,39 +1,34 @@
 ---
 import BrandIcon from "./BrandIcon.astro";
+import { copy, type Locale } from "../i18n";
 
-const parts = [
-	{ code: "TV", label: "Tierra Viva" },
-	{ code: "CH", label: "Chone" },
-	{ code: "2026", label: "Harvest year" },
-	{ code: "014", label: "Fermentation lot" },
-];
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].traceability;
 ---
 
 <section class="band" id="traceability">
 	<div class="shell split" data-stagger>
 		<div data-reveal>
-			<p class="t-eyebrow">Traceability</p>
-			<h2 class="t-h2">Every bag carries its own address</h2>
-			<p class="t-body">
-				A lot code is assigned at fermentation and stays with the beans through drying,
-				quality control and shipping. Given the code, we can name the plots the pods came
-				from, the days the batch was turned, and the cut test it passed.
-			</p>
-			<p class="t-body">
-				For a maker, that is the difference between a story about origin and a record of it.
-			</p>
+			<p class="t-eyebrow">{t.eyebrow}</p>
+			<h2 class="t-h2">{t.title}</h2>
+			<p class="t-body">{t.body1}</p>
+			<p class="t-body">{t.body2}</p>
 		</div>
 
 		<div class="decode" data-reveal style="--reveal-delay:90ms">
 			<BrandIcon name="lattice" class="ico" data-draw />
 			<p class="code t-data">TV-CH-2026-014</p>
-			<p class="mock-flag">Example code</p>
+			<p class="mock-flag">{t.mock}</p>
 			<dl>
 				{
-					parts.map((p) => (
+					t.parts.map(([code, label]) => (
 						<div>
-							<dt class="t-data">{p.code}</dt>
-							<dd>{p.label}</dd>
+							<dt class="t-data">{code}</dt>
+							<dd>{label}</dd>
 						</div>
 					))
 				}

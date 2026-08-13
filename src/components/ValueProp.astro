@@ -1,25 +1,27 @@
 ---
 import BrandIcon from "./BrandIcon.astro";
+import { copy, type Locale } from "../i18n";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const [growers, fermentation] = copy[lang].value;
 ---
 
 <section class="band">
 	<div class="shell grid-asym" data-stagger>
 		<article data-reveal>
 			<BrandIcon name="sprout" class="ico" data-draw />
-			<h3 class="t-h3">Grown by the people who read the land</h3>
-			<p class="t-body">
-				Our own farm and a group of partner growers work the same agroforestry system:
-				native shade, living soil, cacao under canopy rather than in place of it.
-			</p>
+			<h3 class="t-h3">{growers.title}</h3>
+			<p class="t-body">{growers.body}</p>
 		</article>
 
 		<article data-reveal style="--reveal-delay:90ms">
 			<BrandIcon name="pod" class="ico" data-draw />
-			<h3 class="t-h3">Fermented in one place, to one protocol</h3>
-			<p class="t-body">
-				Pods from every plot converge on a single fermentation facility. One protocol,
-				documented and measured, so a lot tastes the way the last one did.
-			</p>
+			<h3 class="t-h3">{fermentation.title}</h3>
+			<p class="t-body">{fermentation.body}</p>
 		</article>
 	</div>
 </section>

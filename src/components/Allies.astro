@@ -4,42 +4,29 @@
  * real partner list; the external link is what makes this section verifiable,
  * so keep it when the real data lands.
  */
-const allies = [
-	{
-		name: "Finca La Herradura",
-		place: "Río Grande, Chone",
-		body: "Eight hectares under mixed canopy, worked by the Zambrano family since 1998. Joined the centralized fermentation programme in its first season.",
-		img: "/media/ally-1.jpg",
-	},
-	{
-		name: "Asociación San Lorenzo",
-		place: "Canuto, Manabí",
-		body: "Fourteen smallholders pooling harvest into shared collection days, which is what makes a single fermentation protocol possible across small plots.",
-		img: "/media/ally-2.jpg",
-	},
-	{
-		name: "Finca El Aromo",
-		place: "Tosagua, Manabí",
-		body: "A recovery plot: old commodity-clone cacao being grafted back to Nacional, with shade species planted between rows.",
-		img: "/media/ally-3.jpg",
-	},
-];
+import { copy, type Locale } from "../i18n";
 
-const certs = ["Organic", "Rainforest Alliance", "Export registry", "Laboratory analysis"];
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].allies;
+const images = ["/media/ally-1.jpg", "/media/ally-2.jpg", "/media/ally-3.jpg"];
 ---
 
 <section class="band allies">
 	<div class="shell" data-stagger>
-		<h2 class="t-h2 head" data-reveal>The growers</h2>
+		<h2 class="t-h2 head" data-reveal>{t.title}</h2>
 
 		<div class="grid">
 			{
-				allies.map((a, i) => (
+				t.items.map((a, i) => (
 					<article data-reveal>
 						<figure class="media" data-img-reveal>
 							{/* TODO: real grower photograph, 700x850 */}
 							<img
-								src={a.img}
+								src={images[i]}
 								alt={`${a.name}, ${a.place}`}
 								width="700"
 								height="850"
@@ -56,9 +43,9 @@ const certs = ["Organic", "Rainforest Alliance", "Export registry", "Laboratory 
 		</div>
 
 		<div class="certs" data-reveal>
-			<p class="certs-label">Certifications in process</p>
+			<p class="certs-label">{t.certLabel}</p>
 			<ul>
-				{certs.map((c) => <li>{c}</li>)}
+				{t.certs.map((c) => <li>{c}</li>)}
 			</ul>
 		</div>
 	</div>

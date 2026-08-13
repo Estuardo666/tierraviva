@@ -1,16 +1,20 @@
 ---
-/** Client-supplied copy. Do not paraphrase. */
-const phrase = "Regenerative Cacao at Origin";
+import { copy, type Locale } from "../i18n";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].manifesto;
+const phrase = t.phrase;
 const words = phrase.split(" ");
 ---
 
 <section class="band texture manifesto">
 	<div class="shell" data-stagger>
 		<blockquote>
-			<p data-reveal>
-				Cacao begins here, where farmers read the land, care for the soil, and pass
-				down knowledge from one generation to the next.
-			</p>
+			<p data-reveal>{t.opening}</p>
 
 			<h2
 				class="trail"
@@ -34,12 +38,9 @@ const words = phrase.split(" ");
 				</span>
 			</h2>
 
-			<p data-reveal>
-				At Tierra Viva, great cacao starts with people, biodiversity, and regenerative
-				agroforestry systems that allow both forests and communities to thrive.
-			</p>
+			<p data-reveal>{t.body}</p>
 
-			<p class="close" data-reveal>From the land of Manabí, Ecuador, to the world.</p>
+			<p class="close" data-reveal>{t.close}</p>
 		</blockquote>
 	</div>
 </section>

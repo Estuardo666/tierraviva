@@ -1,7 +1,16 @@
 ---
 import ArrowLink from "./ArrowLink.astro";
+import { copy, type Locale } from "../i18n";
 
 const year = new Date().getFullYear();
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].footer;
+const request = copy[lang].nav.request;
 ---
 
 {/*
@@ -14,19 +23,19 @@ const year = new Date().getFullYear();
 	<div class="shell inner">
 		<div class="top">
 			<a href="#top" class="mark-link">
-				<span class="sr-only">Tierra Viva Cacao Co., back to top</span>
+				<span class="sr-only">{t.back}</span>
 				<img src="/logos/logo-light-bg.png" alt="" width="723" height="502" />
 			</a>
 
 			<div class="close">
-				<p class="line">Cacao that carries its own record, from Manabí to your factory.</p>
-				<button type="button" class="btn btn-outline" data-enquiry-open>Request samples</button>
+				<p class="line">{t.line}</p>
+				<button type="button" class="btn btn-outline" data-enquiry-open>{request}</button>
 			</div>
 		</div>
 
 		<div class="cols">
 			<div>
-				<p class="label">Get in touch</p>
+				<p class="label">{t.contact}</p>
 				<ArrowLink href="mailto:hello@tierravivacacao.com">hello@tierravivacacao.com</ArrowLink>
 				<ArrowLink href="https://ec.linkedin.com/company/tierravivacacao" rel="noopener">
 					LinkedIn
@@ -34,18 +43,18 @@ const year = new Date().getFullYear();
 			</div>
 
 			<div>
-				<p class="label">On this page</p>
-				<ArrowLink href="#origin">Origin</ArrowLink>
-				<ArrowLink href="#process">Process</ArrowLink>
-				<ArrowLink href="#cacao">The cacao</ArrowLink>
-				<ArrowLink href="#traceability">Traceability</ArrowLink>
+				<p class="label">{t.page}</p>
+				<ArrowLink href="#origin">{t.origin}</ArrowLink>
+				<ArrowLink href="#process">{t.process}</ArrowLink>
+				<ArrowLink href="#cacao">{t.cacao}</ArrowLink>
+				<ArrowLink href="#traceability">{t.traceability}</ArrowLink>
 			</div>
 
 			<div>
-				<p class="label">Where we are</p>
+				<p class="label">{t.where}</p>
 				<p class="fact">Chone, Manabí</p>
-				<p class="fact">Pacific coast of Ecuador</p>
-				<p class="fact t-data">Harvest: March to July, October to December</p>
+				<p class="fact">{t.coast}</p>
+				<p class="fact t-data">{t.harvest}</p>
 			</div>
 		</div>
 

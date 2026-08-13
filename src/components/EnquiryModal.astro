@@ -5,61 +5,74 @@
  * page. Native <dialog>, so focus trapping, Escape and inertness of the page
  * behind it are the browser's job, not ours.
  */
+import { copy, type Locale } from "../i18n";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].modal;
 ---
 
 {/* band-dark is what carries the dark-ground overrides: accent eyebrow,
 	 focus ring, outline button. Without it the eyebrow falls back to the
 	 light-ground orange, which is 2.6:1 on blue. */}
-<dialog id="enquiry" class="band-dark" data-enquiry aria-labelledby="enquiry-title">
+<dialog
+	id="enquiry"
+	class="band-dark"
+	data-enquiry
+	data-required-error={t.required}
+	data-email-error={t.invalidEmail}
+	data-demo-message={t.demo}
+	aria-labelledby="enquiry-title"
+>
 	<div class="sheet">
-		<button type="button" class="close" data-enquiry-close aria-label="Close">
+		<button type="button" class="close" data-enquiry-close aria-label={t.close}>
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
 				<path d="M6 6l12 12M18 6L6 18" />
 			</svg>
 		</button>
 
-		<p class="t-eyebrow">Request samples</p>
-		<h2 id="enquiry-title" class="t-h3">Tell us what you are buying for</h2>
-		<p class="intro">
-			Volume and window are enough to start. We come back with availability, the current
-			lot specification, and samples.
-		</p>
+		<p class="t-eyebrow">{t.eyebrow}</p>
+		<h2 id="enquiry-title" class="t-h3">{t.title}</h2>
+		<p class="intro">{t.intro}</p>
 
 		<form data-contact-form novalidate>
 			<div class="row">
 				<div class="field">
-					<label for="name">Name</label>
+					<label for="name">{t.name}</label>
 					<input id="name" name="name" type="text" autocomplete="name" required />
 				</div>
 				<div class="field">
-					<label for="company">Company</label>
+					<label for="company">{t.company}</label>
 					<input id="company" name="company" type="text" autocomplete="organization" required />
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="field">
-					<label for="country">Country</label>
+					<label for="country">{t.country}</label>
 					<input id="country" name="country" type="text" autocomplete="country-name" required />
 				</div>
 				<div class="field">
-					<label for="email">Email</label>
+					<label for="email">{t.email}</label>
 					<input id="email" name="email" type="email" autocomplete="email" required />
 				</div>
 			</div>
 
 			<div class="field">
-				<label for="volume">Estimated volume</label>
-				<input id="volume" name="volume" type="text" inputmode="numeric" placeholder="Tonnes per year" />
-				<p class="help">Approximate is fine. It sets which lots we quote.</p>
+				<label for="volume">{t.volume}</label>
+				<input id="volume" name="volume" type="text" inputmode="numeric" placeholder={t.volumePlaceholder} />
+				<p class="help">{t.help}</p>
 			</div>
 
 			<div class="field">
-				<label for="message">Message</label>
+				<label for="message">{t.message}</label>
 				<textarea id="message" name="message" rows="4"></textarea>
 			</div>
 
-			<button type="submit" class="btn btn-primary">Send enquiry</button>
+			<button type="submit" class="btn btn-primary">{t.submit}</button>
 			<p class="form-status" data-form-status role="status" aria-live="polite"></p>
 		</form>
 	</div>
@@ -261,6 +274,9 @@
 	const dialog = document.querySelector<HTMLDialogElement>("[data-enquiry]");
 	const form = dialog?.querySelector<HTMLFormElement>("[data-contact-form]");
 	const status = dialog?.querySelector<HTMLElement>("[data-form-status]");
+	const requiredError = dialog?.dataset.requiredError ?? "This field is required.";
+	const emailError = dialog?.dataset.emailError ?? "Check the email address.";
+	const demoMessage = dialog?.dataset.demoMessage ?? "Demo form.";
 
 	if (dialog) {
 		document.querySelectorAll("[data-enquiry-open]").forEach((trigger) =>
@@ -316,10 +332,10 @@
 			if (!field) return;
 
 			if (input.required && !input.value.trim()) {
-				setError(field, "This one is required.");
+				setError(field, requiredError);
 				firstInvalid ??= input;
 			} else if (input.type === "email" && input.value && !input.checkValidity()) {
-				setError(field, "Check the email address.");
+				setError(field, emailError);
 				firstInvalid ??= input;
 			} else {
 				setError(field, null);
@@ -333,6 +349,6 @@
 		}
 
 		// No backend yet: this is the proposal build.
-		if (status) status.textContent = "Demo form. Sending is wired up once the real inbox exists.";
+		if (status) status.textContent = demoMessage;
 	});
 </script>
