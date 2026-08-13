@@ -1,7 +1,11 @@
 ---
 import { copy, type Locale } from "../i18n";
 
-const photo = "/media/origin.jpg";
+const slides = [
+	{ src: "/media/origin.jpg", width: 1200, height: 1500 },
+	{ src: "/media/hero-poster.jpg", width: 1280, height: 720 },
+	{ src: "/media/grano-cacao.jpg", width: 480, height: 480 },
+];
 
 interface Props {
 	lang: Locale;
@@ -13,10 +17,36 @@ const t = copy[lang].origin;
 
 <section class="band" id="origin">
 	<div class="shell split" data-stagger>
-		<figure class="media" data-reveal data-img-reveal>
-			<!-- TODO: real farm photograph, 1200x1500 -->
-			<img src={photo} alt={t.alt} width="1200" height="1500" loading="lazy" decoding="async" />
-		</figure>
+		<div class="carousel" data-carousel data-reveal tabindex="0" aria-label={t.carouselLabel}>
+			<div class="slides" aria-live="polite">
+				{slides.map((slide, i) => (
+					<figure class:list={["media", "slide", { active: i === 0 }]} data-slide={i} aria-hidden={i !== 0} data-img-reveal>
+						<img
+							src={slide.src}
+							alt={t.carouselAlts[i]}
+							width={slide.width}
+							height={slide.height}
+							loading={i === 0 ? "eager" : "lazy"}
+							decoding="async"
+						/>
+					</figure>
+				))}
+			</div>
+
+			<div class="controls">
+				<button type="button" class="carousel-arrow" data-carousel-prev aria-label={t.previous}>
+					<span aria-hidden="true">←</span>
+				</button>
+				<div class="dots" role="tablist" aria-label={t.carouselLabel}>
+					{slides.map((_, i) => (
+						<button type="button" class:list={["dot", { active: i === 0 }]} data-carousel-dot={i} role="tab" aria-selected={i === 0} aria-label={`${i + 1}`} />
+					))}
+				</div>
+				<button type="button" class="carousel-arrow" data-carousel-next aria-label={t.next}>
+					<span aria-hidden="true">→</span>
+				</button>
+			</div>
+		</div>
 
 		<div class="copy" data-reveal style="--reveal-delay:80ms">
 			<h2 class="t-h2">{t.title}</h2>
@@ -46,6 +76,90 @@ const t = copy[lang].origin;
 		aspect-ratio: 4 / 5;
 	}
 
+	.carousel {
+		position: relative;
+		min-width: 0;
+	}
+
+	.slides {
+		position: relative;
+		aspect-ratio: 4 / 5;
+	}
+
+	.slide {
+		position: absolute;
+		inset: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: visibility 0s linear 360ms;
+	}
+
+	.slide.active {
+		visibility: visible;
+		pointer-events: auto;
+		transition-delay: 0s;
+	}
+
+	.controls {
+		position: absolute;
+		inset-inline: 1rem;
+		inset-block-end: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		z-index: 2;
+	}
+
+	.carousel-arrow {
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid color-mix(in srgb, var(--color-cream) 72%, transparent);
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--color-blue) 58%, transparent);
+		color: var(--color-cream);
+		font-size: 1.35rem;
+		cursor: pointer;
+		transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out);
+	}
+
+	.carousel-arrow:hover {
+		border-color: var(--color-orange);
+		background: var(--color-orange);
+		color: var(--color-blue);
+		transform: scale(1.05);
+	}
+
+	.dots {
+		display: flex;
+		gap: 0.5rem;
+		padding: 0.5rem 0.75rem;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--color-blue) 58%, transparent);
+	}
+
+	.dot {
+		width: 0.5rem;
+		height: 0.5rem;
+		padding: 0;
+		border: 1px solid var(--color-cream);
+		border-radius: 50%;
+		background: transparent;
+		cursor: pointer;
+	}
+
+	.dot.active {
+		background: var(--color-orange);
+		border-color: var(--color-orange);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.carousel-arrow {
+			transition: none;
+		}
+	}
+
 	h2 {
 		margin-bottom: 1.5rem;
 		max-width: 16ch;
@@ -68,3 +182,34 @@ const t = copy[lang].origin;
 		padding-left: 0.875rem;
 	}
 </style>
+
+<script>
+	const carousel = document.querySelector<HTMLElement>("[data-carousel]");
+
+	if (carousel) {
+		const slides = [...carousel.querySelectorAll<HTMLElement>("[data-slide]")];
+		const dots = [...carousel.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]")];
+		let current = 0;
+
+		const show = (index: number) => {
+			current = (index + slides.length) % slides.length;
+			slides.forEach((slide, i) => {
+				const active = i === current;
+				slide.classList.toggle("active", active);
+				slide.setAttribute("aria-hidden", String(!active));
+			});
+			dots.forEach((dot, i) => {
+				dot.classList.toggle("active", i === current);
+				dot.setAttribute("aria-selected", String(i === current));
+			});
+		};
+
+		carousel.querySelector("[data-carousel-prev]")?.addEventListener("click", () => show(current - 1));
+		carousel.querySelector("[data-carousel-next]")?.addEventListener("click", () => show(current + 1));
+		dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
+		carousel.addEventListener("keydown", (event) => {
+			if (event.key === "ArrowLeft") show(current - 1);
+			if (event.key === "ArrowRight") show(current + 1);
+		});
+	}
+</script>

@@ -61,6 +61,14 @@ export const copy = {
 		},
 		origin: {
 			alt: "Cacao trees under native shade on the Tierra Viva farm in Manabí.",
+			carouselAlts: [
+				"Cacao trees under native shade on the Tierra Viva farm in Manabí.",
+				"Cacao beans ready for selection.",
+				"A cacao bean from Tierra Viva.",
+			],
+			carouselLabel: "Origin story images",
+			previous: "Previous image",
+			next: "Next image",
 			title: "Founded in 2025, on the coast of Ecuador",
 			body1:
 				"Tierra Viva works in Chone, in the province of Manabí, on the Pacific side of Ecuador. The company was formed to change where the value of cacao is captured: to structure quality at origin instead of shipping raw beans and buying the grading back.",
@@ -182,6 +190,12 @@ export const copy = {
 			certLabel: "Certifications in process",
 			certs: ["Organic", "Rainforest Alliance", "Export registry", "Laboratory analysis"],
 		},
+		cta: {
+			eyebrow: "For chocolate makers",
+			title: "Bring origin into the conversation",
+			subtitle: "Request a sample from the current lot.",
+			button: "Request samples",
+		},
 		contact: {
 			eyebrow: "Who we work with",
 			audiences: ["Fine chocolate brands", "Craft chocolate makers", "Importers and traders"],
@@ -274,6 +288,14 @@ export const copy = {
 		},
 		origin: {
 			alt: "Árboles de cacao bajo sombra nativa en la finca Tierra Viva, en Manabí.",
+			carouselAlts: [
+				"Árboles de cacao bajo sombra nativa en la finca Tierra Viva, en Manabí.",
+				"Granos de cacao listos para selección.",
+				"Un grano de cacao de Tierra Viva.",
+			],
+			carouselLabel: "Imágenes de nuestra historia",
+			previous: "Imagen anterior",
+			next: "Imagen siguiente",
 			title: "Fundada en 2025, en la costa de Ecuador",
 			body1:
 				"Tierra Viva trabaja en Chone, provincia de Manabí, en la costa del Pacífico ecuatoriano. La empresa nació para cambiar el lugar donde se captura el valor del cacao: estructurar la calidad desde el origen en vez de exportar granos sin procesar y comprar después su clasificación.",
@@ -395,6 +417,12 @@ export const copy = {
 			],
 			certLabel: "Certificaciones en proceso",
 			certs: ["Orgánico", "Rainforest Alliance", "Registro de exportación", "Análisis de laboratorio"],
+		},
+		cta: {
+			eyebrow: "Para fabricantes de chocolate",
+			title: "Lleva el origen a la conversación",
+			subtitle: "Solicita una muestra del lote actual.",
+			button: "Solicitar muestras",
 		},
 		contact: {
 			eyebrow: "Con quién trabajamos",

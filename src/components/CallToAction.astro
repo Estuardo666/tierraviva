@@ -1,0 +1,67 @@
+---
+import { copy, type Locale } from "../i18n";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang].cta;
+---
+
+<section class="band cta-band">
+	<div class="shell">
+		<div class="cta-card" data-reveal>
+			<div class="cta-content">
+				<p class="t-eyebrow">{t.eyebrow}</p>
+				<h2 class="t-h2">{t.title}</h2>
+				<p class="subtitle">{t.subtitle}</p>
+				<button type="button" class="btn btn-primary" data-enquiry-open>{t.button}</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.cta-band {
+		padding-top: 0;
+	}
+
+	.cta-card {
+		position: relative;
+		min-height: clamp(22rem, 45vw, 34rem);
+		display: grid;
+		align-items: end;
+		overflow: hidden;
+		border-radius: var(--radius-media);
+		isolation: isolate;
+		background:
+			linear-gradient(90deg, color-mix(in srgb, var(--color-blue) 90%, transparent) 0%, color-mix(in srgb, var(--color-blue) 62%, transparent) 58%, color-mix(in srgb, var(--color-blue) 30%, transparent) 100%),
+			url("/media/hero-poster.jpg") center / cover;
+	}
+
+	.cta-card::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(180deg, transparent 35%, color-mix(in srgb, var(--color-blue) 55%, transparent) 100%);
+	}
+
+	.cta-content {
+		max-width: 38rem;
+		padding: clamp(2rem, 6vw, 5rem);
+		color: var(--color-cream);
+	}
+
+	.cta-content h2 {
+		max-width: 11ch;
+		margin: 0.85rem 0 1rem;
+	}
+
+	.subtitle {
+		max-width: 32ch;
+		margin-bottom: 1.75rem;
+		color: color-mix(in srgb, var(--color-cream) 82%, transparent);
+	}
+</style>
