@@ -1,0 +1,338 @@
+---
+/**
+ * The enquiry form lives here rather than in the page. A buyer who is ready to
+ * ask for a lot opens it deliberately; everyone else reads an uninterrupted
+ * page. Native <dialog>, so focus trapping, Escape and inertness of the page
+ * behind it are the browser's job, not ours.
+ */
+---
+
+{/* band-dark is what carries the dark-ground overrides: accent eyebrow,
+	 focus ring, outline button. Without it the eyebrow falls back to the
+	 light-ground orange, which is 2.6:1 on blue. */}
+<dialog id="enquiry" class="band-dark" data-enquiry aria-labelledby="enquiry-title">
+	<div class="sheet">
+		<button type="button" class="close" data-enquiry-close aria-label="Close">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+				<path d="M6 6l12 12M18 6L6 18" />
+			</svg>
+		</button>
+
+		<p class="t-eyebrow">Request samples</p>
+		<h2 id="enquiry-title" class="t-h3">Tell us what you are buying for</h2>
+		<p class="intro">
+			Volume and window are enough to start. We come back with availability, the current
+			lot specification, and samples.
+		</p>
+
+		<form data-contact-form novalidate>
+			<div class="row">
+				<div class="field">
+					<label for="name">Name</label>
+					<input id="name" name="name" type="text" autocomplete="name" required />
+				</div>
+				<div class="field">
+					<label for="company">Company</label>
+					<input id="company" name="company" type="text" autocomplete="organization" required />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="field">
+					<label for="country">Country</label>
+					<input id="country" name="country" type="text" autocomplete="country-name" required />
+				</div>
+				<div class="field">
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" autocomplete="email" required />
+				</div>
+			</div>
+
+			<div class="field">
+				<label for="volume">Estimated volume</label>
+				<input id="volume" name="volume" type="text" inputmode="numeric" placeholder="Tonnes per year" />
+				<p class="help">Approximate is fine. It sets which lots we quote.</p>
+			</div>
+
+			<div class="field">
+				<label for="message">Message</label>
+				<textarea id="message" name="message" rows="4"></textarea>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Send enquiry</button>
+			<p class="form-status" data-form-status role="status" aria-live="polite"></p>
+		</form>
+	</div>
+</dialog>
+
+<style>
+	dialog {
+		width: min(42rem, calc(100vw - 2rem));
+		max-height: min(46rem, calc(100dvh - 2rem));
+		padding: 0;
+		border: 0;
+		border-radius: var(--radius-media);
+		background: var(--color-blue);
+		color: var(--color-cream);
+		overflow: auto;
+		overscroll-behavior: contain;
+
+		/* Modals are not anchored to a trigger, so they scale from their own
+		   centre. Never from scale(0): nothing arrives out of nothing. */
+		opacity: 0;
+		transform: scale(0.97);
+		transition:
+			opacity 160ms var(--ease-out),
+			transform 160ms var(--ease-out),
+			overlay 160ms allow-discrete,
+			display 160ms allow-discrete;
+	}
+
+	dialog[open] {
+		opacity: 1;
+		transform: none;
+		transition-duration: 220ms;
+	}
+
+	@starting-style {
+		dialog[open] {
+			opacity: 0;
+			transform: scale(0.97);
+		}
+	}
+
+	dialog::backdrop {
+		background: color-mix(in srgb, var(--color-blue) 58%, transparent);
+		backdrop-filter: blur(6px);
+		opacity: 0;
+		transition:
+			opacity 220ms var(--ease-out),
+			overlay 220ms allow-discrete,
+			display 220ms allow-discrete;
+	}
+
+	dialog[open]::backdrop {
+		opacity: 1;
+	}
+
+	@starting-style {
+		dialog[open]::backdrop {
+			opacity: 0;
+		}
+	}
+
+	.sheet {
+		position: relative;
+		padding: clamp(1.75rem, 4vw, 3rem);
+	}
+
+	.close {
+		position: absolute;
+		inset-block-start: 0.75rem;
+		inset-inline-end: 0.75rem;
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--radius-control);
+		color: var(--color-cream);
+		cursor: pointer;
+		transition: background-color 150ms ease;
+	}
+
+	.close svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.close:hover {
+			background: color-mix(in srgb, var(--color-cream) 12%, transparent);
+		}
+	}
+
+	h2 {
+		margin: 0.875rem 0 0.75rem;
+		max-width: 20ch;
+	}
+
+	.intro {
+		font-size: 0.9375rem;
+		line-height: 1.6;
+		max-width: 46ch;
+		color: color-mix(in srgb, var(--color-cream) 76%, transparent);
+	}
+
+	form {
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 2rem;
+	}
+
+	.row {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	@media (min-width: 560px) {
+		.row {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.field {
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	label {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--color-cream) 80%, transparent);
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		padding: 0.875rem 1rem;
+		border: 1px solid color-mix(in srgb, var(--color-cream) 26%, transparent);
+		border-radius: var(--radius-control);
+		background: color-mix(in srgb, var(--color-cream) 6%, transparent);
+		color: var(--color-cream);
+		font: inherit;
+		font-size: 0.9375rem;
+		transition: border-color 150ms ease, background-color 150ms ease;
+	}
+
+	input::placeholder,
+	textarea::placeholder {
+		color: color-mix(in srgb, var(--color-cream) 45%, transparent);
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: var(--color-orange);
+		background: color-mix(in srgb, var(--color-cream) 10%, transparent);
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	.help {
+		font-size: 0.75rem;
+		color: color-mix(in srgb, var(--color-cream) 58%, transparent);
+	}
+
+	.field[data-invalid] input,
+	.field[data-invalid] textarea {
+		border-color: var(--color-orange);
+	}
+
+	.field :global(.error) {
+		font-size: 0.75rem;
+		font-weight: 700;
+		color: var(--color-orange);
+	}
+
+	form .btn {
+		justify-self: start;
+		margin-top: 0.5rem;
+	}
+
+	.form-status:not(:empty) {
+		font-size: 0.8125rem;
+		color: var(--color-orange);
+		border-left: 2px solid var(--color-orange);
+		padding-left: 0.875rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		dialog,
+		dialog::backdrop {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	const dialog = document.querySelector<HTMLDialogElement>("[data-enquiry]");
+	const form = dialog?.querySelector<HTMLFormElement>("[data-contact-form]");
+	const status = dialog?.querySelector<HTMLElement>("[data-form-status]");
+
+	if (dialog) {
+		document.querySelectorAll("[data-enquiry-open]").forEach((trigger) =>
+			trigger.addEventListener("click", (event) => {
+				event.preventDefault();
+				if (status) status.textContent = "";
+				dialog.showModal();
+			}),
+		);
+
+		dialog.querySelector("[data-enquiry-close]")?.addEventListener("click", () => dialog.close());
+
+		// Click outside the sheet closes. The dialog element itself fills the
+		// backdrop area, so a click that lands on it and not on .sheet is out.
+		dialog.addEventListener("click", (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+	}
+
+	const setError = (field: HTMLElement, message: string | null) => {
+		const input = field.querySelector<HTMLInputElement>("input, textarea");
+		field.querySelector(".error")?.remove();
+
+		if (!message) {
+			field.removeAttribute("data-invalid");
+			input?.removeAttribute("aria-invalid");
+			input?.removeAttribute("aria-describedby");
+			return;
+		}
+
+		field.setAttribute("data-invalid", "");
+		const p = document.createElement("p");
+		p.className = "error";
+		p.textContent = message;
+
+		// Announce the message on the field itself, not just next to it: a
+		// screen reader user moved to the input by focus() must hear why.
+		if (input) {
+			p.id = `${input.id}-error`;
+			input.setAttribute("aria-invalid", "true");
+			input.setAttribute("aria-describedby", p.id);
+		}
+
+		field.append(p);
+	};
+
+	form?.addEventListener("submit", (event) => {
+		event.preventDefault();
+		let firstInvalid: HTMLElement | null = null;
+
+		form.querySelectorAll<HTMLInputElement>("input, textarea").forEach((input) => {
+			const field = input.closest<HTMLElement>(".field");
+			if (!field) return;
+
+			if (input.required && !input.value.trim()) {
+				setError(field, "This one is required.");
+				firstInvalid ??= input;
+			} else if (input.type === "email" && input.value && !input.checkValidity()) {
+				setError(field, "Check the email address.");
+				firstInvalid ??= input;
+			} else {
+				setError(field, null);
+			}
+		});
+
+		if (firstInvalid) {
+			firstInvalid.focus();
+			if (status) status.textContent = "";
+			return;
+		}
+
+		// No backend yet: this is the proposal build.
+		if (status) status.textContent = "Demo form. Sending is wired up once the real inbox exists.";
+	});
+</script>

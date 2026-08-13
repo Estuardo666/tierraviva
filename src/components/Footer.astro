@@ -1,0 +1,166 @@
+---
+import ArrowLink from "./ArrowLink.astro";
+
+const year = new Date().getFullYear();
+---
+
+{/*
+	Cream ground, against the blue contact section above it. The page has run
+	blue for its last two sections; ending on cream closes it rather than
+	letting the footer dissolve into the section before it. This is also the
+	only place the light-ground logotype belongs.
+*/}
+<footer class="texture">
+	<div class="shell inner">
+		<div class="top">
+			<a href="#top" class="mark-link">
+				<span class="sr-only">Tierra Viva Cacao Co., back to top</span>
+				<img src="/logos/logo-light-bg.png" alt="" width="723" height="502" />
+			</a>
+
+			<div class="close">
+				<p class="line">Cacao that carries its own record, from Manabí to your factory.</p>
+				<button type="button" class="btn btn-outline" data-enquiry-open>Request samples</button>
+			</div>
+		</div>
+
+		<div class="cols">
+			<div>
+				<p class="label">Get in touch</p>
+				<ArrowLink href="mailto:hello@tierravivacacao.com">hello@tierravivacacao.com</ArrowLink>
+				<ArrowLink href="https://ec.linkedin.com/company/tierravivacacao" rel="noopener">
+					LinkedIn
+				</ArrowLink>
+			</div>
+
+			<div>
+				<p class="label">On this page</p>
+				<ArrowLink href="#origin">Origin</ArrowLink>
+				<ArrowLink href="#process">Process</ArrowLink>
+				<ArrowLink href="#cacao">The cacao</ArrowLink>
+				<ArrowLink href="#traceability">Traceability</ArrowLink>
+			</div>
+
+			<div>
+				<p class="label">Where we are</p>
+				<p class="fact">Chone, Manabí</p>
+				<p class="fact">Pacific coast of Ecuador</p>
+				<p class="fact t-data">Harvest: March to July, October to December</p>
+			</div>
+		</div>
+
+		<p class="legal">© {year} Tierra Viva Cacao Co.</p>
+	</div>
+</footer>
+
+<style>
+	footer {
+		background: var(--color-cream);
+		color: var(--color-ink);
+		border-top: 1px solid var(--color-rule);
+		padding-block: clamp(3.5rem, 7vw, 6rem) 2.5rem;
+	}
+
+	.inner {
+		display: grid;
+		gap: 3.5rem;
+	}
+
+	.top {
+		display: grid;
+		gap: 2.5rem;
+		align-items: end;
+	}
+
+	@media (min-width: 860px) {
+		.top {
+			grid-template-columns: 0.85fr 1fr;
+			gap: 4rem;
+		}
+	}
+
+	.mark-link {
+		display: inline-flex;
+		min-height: 44px;
+		justify-self: start;
+	}
+
+	.mark-link img {
+		display: block;
+		width: auto;
+		height: clamp(4.5rem, 9vw, 7rem);
+	}
+
+	.line {
+		font-family: var(--font-display);
+		font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+		line-height: 1.2;
+		letter-spacing: -0.012em;
+		max-width: 20ch;
+		text-wrap: balance;
+	}
+
+	.close .btn {
+		margin-top: 1.75rem;
+	}
+
+	/* Deliberately uneven: the contact column carries the weight, the page
+	   index is a utility, and the location column is just facts. */
+	.cols {
+		display: grid;
+		gap: 2.5rem;
+		padding-top: 3rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	@media (min-width: 760px) {
+		.cols {
+			grid-template-columns: 1.3fr 0.8fr 1fr;
+			gap: 3rem;
+		}
+	}
+
+	.cols > div {
+		display: grid;
+		justify-items: start;
+		gap: 0.125rem;
+	}
+
+	.label {
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-ink-45);
+		margin-bottom: 0.75rem;
+	}
+
+	.cols :global(.link-arrow) {
+		font-size: 0.8125rem;
+		letter-spacing: 0.04em;
+		text-transform: none;
+		font-weight: 400;
+	}
+
+	.fact {
+		font-size: 0.8125rem;
+		line-height: 1.9;
+		color: var(--color-ink-70);
+	}
+
+	.legal {
+		font-size: 0.75rem;
+		color: var(--color-ink-45);
+		padding-top: 2rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+</style>

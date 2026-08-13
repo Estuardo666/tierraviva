@@ -1,0 +1,541 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tierra Viva - brand foundation
+   Palette and typefaces are fixed by MANUAL DE MARCA TIERRA VIVA.
+   Do not introduce a second accent. See docs/IA-onepage.md.
+--------------------------------------------------------------------------- */
+
+@font-face {
+	font-family: "Haqmuse";
+	src: url("/fonts/haqmuse.otf") format("opentype");
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Abro Sans";
+	src: url("/fonts/AbroSans-Thin.ttf") format("truetype");
+	font-weight: 200;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Abro Sans";
+	src: url("/fonts/AbroSans-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Abro Sans";
+	src: url("/fonts/AbroSans-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-display: swap;
+}
+
+@theme {
+	/* Brand - primary */
+	--color-blue: #00283c;
+	--color-orange: #f3a155;
+	/* Same accent, held at a legible value on light grounds. The brand orange
+	   is 1.9:1 on cream, so it can only ever be text on the blue ground or a
+	   fill behind blue text. This is not a second accent. */
+	--color-orange-ink: #9c4f10;
+	--color-green: #6a8660;
+	--color-cream: #fdf3e4;
+
+	/* Brand - support. Illustration and data only, never a section ground. */
+	--color-sand: #d8c3a5;
+	--color-clay: #c97d4d;
+	--color-sage: #a8b89a;
+	--color-moss: #556b4f;
+
+	/* Neutrals biased toward the brand blue, not pure grey.
+	   ink-45 is held at 4.9:1 on the sand ground, so it is a quiet tone that
+	   still passes AA rather than a decorative light grey. */
+	--color-ink: #00283c;
+	--color-ink-70: #4a6472;
+	--color-ink-45: #506674;
+	--color-rule: #ded0ba;
+
+	--font-display: "Haqmuse", Georgia, serif;
+	--font-body: "Abro Sans", ui-sans-serif, system-ui, sans-serif;
+
+	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+	/* Symmetric curve for line drawing: the stroke should not arrive faster
+	   than it left, or the glyph looks like it snapped rather than was drawn. */
+	--ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
+
+	/* Two documented radii in an exact 1:2 ratio, so the softness reads as a
+	   system rather than as two unrelated guesses. Controls take the smaller
+	   one, photography the larger. */
+	--radius-control: 10px;
+	--radius-media: 20px;
+}
+
+/* --- Base ---------------------------------------------------------------- */
+
+html {
+	scroll-behavior: smooth;
+	/* Nav is fixed; anchor targets must clear it. */
+	scroll-padding-top: 5.25rem;
+}
+
+body {
+	background: var(--color-cream);
+	color: var(--color-ink);
+	font-family: var(--font-body);
+	font-weight: 400;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-display);
+	font-weight: 400;
+	line-height: 1.08;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-orange-ink);
+	outline-offset: 3px;
+	border-radius: var(--radius-control);
+}
+
+::selection {
+	background: var(--color-orange);
+	color: var(--color-blue);
+}
+
+/* --- Type scale ---------------------------------------------------------- */
+
+.t-display {
+	font-family: var(--font-display);
+	font-size: clamp(2.75rem, 7vw, 5.25rem);
+	line-height: 1.02;
+	letter-spacing: -0.02em;
+}
+
+.t-h2 {
+	font-family: var(--font-display);
+	font-size: clamp(2rem, 4.2vw, 3.25rem);
+}
+
+.t-h3 {
+	font-family: var(--font-display);
+	font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+}
+
+.t-lead {
+	font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+	line-height: 1.55;
+	max-width: 52ch;
+}
+
+.t-body {
+	font-size: 1rem;
+	line-height: 1.65;
+	max-width: 62ch;
+}
+
+/* Eyebrow. Rationed: hero, product, traceability, contact only. */
+.t-eyebrow {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--color-orange-ink);
+}
+
+.band-dark .t-eyebrow {
+	color: var(--color-orange);
+}
+
+.t-data {
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
+}
+
+/* --- Layout -------------------------------------------------------------- */
+
+.shell {
+	width: 100%;
+	max-width: 78rem;
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+	.shell {
+		padding-inline: 3rem;
+	}
+}
+
+.band {
+	padding-block: clamp(4.5rem, 10vw, 8.5rem);
+}
+
+.band-dark {
+	background: var(--color-blue);
+	color: var(--color-cream);
+}
+
+.rule {
+	height: 1px;
+	background: var(--color-rule);
+	border: 0;
+}
+
+.band-dark :focus-visible {
+	outline-color: var(--color-orange);
+}
+
+.band-dark .rule {
+	background: color-mix(in srgb, var(--color-cream) 22%, transparent);
+}
+
+/* --- Brand texture -------------------------------------------------------
+   Manual: subtle, background only, never competing with the logo.
+   Organic diagonal grain in sand tone at very low opacity.
+------------------------------------------------------------------------- */
+
+.texture {
+	position: relative;
+	isolation: isolate;
+}
+
+.texture::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-image: repeating-linear-gradient(
+		108deg,
+		color-mix(in srgb, var(--color-sand) 38%, transparent) 0 1px,
+		transparent 1px 22px
+	);
+	mask-image: radial-gradient(ellipse 80% 65% at 50% 50%, #000 15%, transparent 78%);
+}
+
+/* --- Buttons ------------------------------------------------------------- */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	white-space: nowrap;
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	padding: 0.875rem 1.75rem;
+	border-radius: var(--radius-control);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 180ms ease, color 180ms ease, transform 160ms var(--ease-out);
+}
+
+.btn:active {
+	transform: scale(0.97);
+}
+
+.btn-primary {
+	background: var(--color-orange);
+	color: var(--color-blue);
+}
+
+.btn-outline {
+	border: 1px solid currentColor;
+	color: var(--color-blue);
+}
+
+.band-dark .btn-outline {
+	color: var(--color-cream);
+}
+
+/* Fluid fill: the ground rises into the button from below with a crest that
+   flattens as it lands, instead of a flat colour swap. Purely a hover state,
+   so it never runs on touch. */
+.btn::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	background: var(--btn-fluid, transparent);
+	transform: translateY(101%);
+	border-radius: 50% 50% 0 0 / 24% 24% 0 0;
+	transition: transform 420ms var(--ease-out), border-radius 420ms var(--ease-out);
+}
+
+.btn-primary {
+	--btn-fluid: var(--color-blue);
+}
+
+.btn-outline {
+	--btn-fluid: var(--color-orange);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.btn:hover::before {
+		transform: translateY(0);
+		border-radius: 0;
+	}
+
+	/* Blue fill under cream text: 12.4:1. */
+	.btn-primary:hover {
+		color: var(--color-cream);
+	}
+
+	/* Orange fill under blue text: 7.34:1. */
+	.btn-outline:hover {
+		color: var(--color-blue);
+		border-color: var(--color-orange);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn::before {
+		transition: none;
+	}
+}
+
+/* --- Text arrow link -----------------------------------------------------
+   The arrow leaves the frame to the right while its twin arrives from the
+   left, so the link reads as forward motion rather than a wiggle.
+------------------------------------------------------------------------- */
+
+.link-arrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.625rem;
+	min-height: 44px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--color-orange-ink);
+	transition: gap 240ms var(--ease-out);
+}
+
+.band-dark .link-arrow {
+	color: var(--color-orange);
+}
+
+.link-arrow .label {
+	position: relative;
+	padding-block: 0.15rem;
+}
+
+.link-arrow .label::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 0;
+	height: 1px;
+	background: currentColor;
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform 260ms var(--ease-out);
+}
+
+.link-arrow .track {
+	position: relative;
+	overflow: hidden;
+	width: 1.05em;
+	height: 1.05em;
+	flex: none;
+}
+
+.link-arrow .track svg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	transition: transform 260ms var(--ease-out);
+}
+
+.link-arrow .track svg + svg {
+	transform: translateX(-115%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.link-arrow:hover {
+		gap: 0.875rem;
+	}
+
+	.link-arrow:hover .label::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	.link-arrow:hover .track svg {
+		transform: translateX(115%);
+	}
+
+	.link-arrow:hover .track svg + svg {
+		transform: translateX(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.link-arrow,
+	.link-arrow .track svg,
+	.link-arrow .label::after {
+		transition: none;
+	}
+}
+
+/* --- Media ---------------------------------------------------------------
+   Photography rounds, wipes up on entry, and drifts a few percent against
+   the scroll. The drift is scroll-driven CSS where supported; where it is
+   not, the image is simply still, which is a fine image.
+------------------------------------------------------------------------- */
+
+.media {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--radius-media);
+	background: color-mix(in srgb, var(--color-sand) 40%, transparent);
+}
+
+.media > img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.js .media[data-img-reveal] {
+	clip-path: inset(0 0 100% 0 round var(--radius-media));
+	transition: clip-path 760ms var(--ease-out);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js .media[data-img-reveal].is-in {
+	clip-path: inset(0 0 0 0 round var(--radius-media));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		/* Longhands, not the shorthand. The minifier folds
+		   `animation` + `animation-timeline` into the Level 2 shorthand, which
+		   this engine parses as invalid and drops the whole declaration. */
+		.media > img {
+			animation-name: media-drift;
+			animation-duration: auto;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
+			animation-timeline: view();
+			animation-range: cover 0% cover 100%;
+		}
+
+		@keyframes media-drift {
+			from {
+				transform: scale(1.08) translateY(-2.6%);
+			}
+			to {
+				transform: scale(1.08) translateY(2.6%);
+			}
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js .media[data-img-reveal] {
+		clip-path: none;
+		transition: none;
+	}
+}
+
+/* --- Icon draw -----------------------------------------------------------
+   Every stroke carries pathLength="1", so one dash length works for glyphs
+   of wildly different real lengths. Strokes draw in document order.
+------------------------------------------------------------------------- */
+
+.js [data-draw] :is(path, circle) {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	transition: stroke-dashoffset 900ms var(--ease-draw);
+}
+
+.js [data-draw].is-in :is(path, circle) {
+	stroke-dashoffset: 0;
+}
+
+.js [data-draw] :is(path, circle):nth-child(2) { transition-delay: 120ms; }
+.js [data-draw] :is(path, circle):nth-child(3) { transition-delay: 240ms; }
+.js [data-draw] :is(path, circle):nth-child(4) { transition-delay: 360ms; }
+.js [data-draw] :is(path, circle):nth-child(5) { transition-delay: 480ms; }
+
+@media (prefers-reduced-motion: reduce) {
+	.js [data-draw] :is(path, circle) {
+		stroke-dashoffset: 0;
+		transition: none;
+	}
+}
+
+/* --- Scroll reveal -------------------------------------------------------
+   Motion budget for the whole page (docs/IA-onepage.md):
+   hero load sequence, section reveals, the <5% counter, process stagger,
+   and control feedback. Nothing else moves.
+------------------------------------------------------------------------- */
+
+/* Content is visible by default. Only a page that has confirmed JS is running
+   hides it to animate it in, so a script failure can never blank the page. */
+.js [data-reveal] {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].is-in {
+	opacity: 1;
+	transform: none;
+}
+
+/* The hero animates FROM a hidden state rather than resting in one: with
+   `backwards` fill the element borrows the from-keyframe during its delay and
+   returns to its natural, visible state afterwards. If animations are disabled
+   or fail, the hero is simply there. */
+.js .hero-load > * {
+	animation: hero-in 520ms var(--ease-out) backwards;
+	animation-delay: var(--hero-delay, 0ms);
+}
+
+@keyframes hero-in {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	.js [data-reveal] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.js .hero-load > * {
+		animation: none;
+	}
+
+	.btn:active {
+		transform: none;
+	}
+}

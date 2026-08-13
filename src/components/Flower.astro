@@ -1,0 +1,137 @@
+---
+import BrandIcon from "./BrandIcon.astro";
+
+const macro = "/media/flower.jpg";
+---
+
+<section class="band band-dark flower">
+	<div class="shell inner" data-stagger>
+		<figure class="media" data-reveal data-img-reveal>
+			<!-- TODO: real macro photograph of a cacao flower, 1000x1250 -->
+			<img src={macro} alt="Macro photograph of a cacao flower, a few millimetres across." width="1000" height="1250" loading="lazy" decoding="async" />
+		</figure>
+
+		<div class="copy">
+			<div class="stat" data-reveal>
+				<BrandIcon name="flower" class="ico" data-draw />
+				<p class="figure t-data"><span data-count>&lt; 5</span>%</p>
+				<p class="caption">of flowers become pods</p>
+			</div>
+
+			<div data-reveal style="--reveal-delay:100ms">
+				<p class="t-body">
+					A cacao flower measures only a few millimeters. Its pollination depends on
+					tiny midges that thrive only in living soils and balanced ecosystems. A single
+					tree can produce hundreds of flowers. Less than 5% will become pods.
+				</p>
+				<p class="t-body">
+					Cacao productivity does not begin at harvest. It begins here; in the
+					micro-life of the forest floor. At Tierra Viva, we work from the root:
+					regenerative agroforestry, functional biodiversity, and structure at origin.
+				</p>
+				<p class="kicker">Because quality is not manufactured. It is cultivated.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.inner {
+		display: grid;
+		gap: 3rem;
+		align-items: center;
+	}
+
+	@media (min-width: 900px) {
+		.inner {
+			grid-template-columns: 0.8fr 1fr;
+			gap: 5rem;
+		}
+	}
+
+	figure {
+		margin: 0;
+		aspect-ratio: 4 / 5;
+	}
+
+	.stat {
+		padding-bottom: 2rem;
+		margin-bottom: 2rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 20%, transparent);
+	}
+
+	.stat :global(.ico) {
+		width: 40px;
+		height: 40px;
+		color: var(--color-orange);
+		margin-bottom: 1.25rem;
+	}
+
+	.figure {
+		font-family: var(--font-display);
+		font-size: clamp(4rem, 11vw, 7.5rem);
+		line-height: 0.9;
+		color: var(--color-orange);
+	}
+
+	.caption {
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		margin-top: 0.75rem;
+	}
+
+	.t-body {
+		color: color-mix(in srgb, var(--color-cream) 78%, transparent);
+	}
+
+	.t-body + .t-body {
+		margin-top: 1.125rem;
+	}
+
+	.kicker {
+		font-family: var(--font-display);
+		font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+		line-height: 1.25;
+		margin-top: 2rem;
+		max-width: 24ch;
+	}
+</style>
+
+<script>
+	// The number is the argument, so it earns the page's one counted animation.
+	const el = document.querySelector<HTMLElement>("[data-count]");
+	const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const TARGET = 5;
+
+	if (el) {
+		if (reduce) {
+			el.textContent = `< ${TARGET}`;
+		} else {
+			new IntersectionObserver(
+				(entries, obs) => {
+					entries.forEach((entry) => {
+						if (!entry.isIntersecting) return;
+						obs.disconnect();
+
+						const DURATION = 900;
+						const start = performance.now();
+
+						const tick = (now: number) => {
+							const p = Math.min((now - start) / DURATION, 1);
+							// ease-out cubic, matching the page's --ease-out feel
+							const eased = 1 - Math.pow(1 - p, 3);
+							el.textContent = `< ${(TARGET * eased).toFixed(1)}`;
+							if (p < 1) requestAnimationFrame(tick);
+							else el.textContent = `< ${TARGET}`;
+						};
+
+						requestAnimationFrame(tick);
+					});
+				},
+				{ threshold: 0.6 },
+			).observe(el);
+		}
+	}
+</script>

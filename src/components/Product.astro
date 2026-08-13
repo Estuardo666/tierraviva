@@ -1,0 +1,237 @@
+---
+/**
+ * Every figure below is placeholder data pending the client's real lot sheet.
+ * Four headline specs carry the section; the rest sit in three grouped
+ * clusters behind a disclosure rather than a long hairline-ruled table.
+ */
+const headline = [
+	{ v: "≤ 7.0%", k: "Moisture" },
+	{ v: "≥ 85%", k: "Well fermented" },
+	{ v: "1 t", k: "Minimum order" },
+	{ v: "FOB GYE", k: "Incoterm" },
+];
+
+const groups = [
+	{
+		title: "Growing and post-harvest",
+		rows: [
+			["Variety", "Nacional, fino de aroma"],
+			["Origin", "Chone, Manabí, Ecuador"],
+			["Fermentation", "5 to 6 days, cascade boxes"],
+			["Drying", "Sun-dried, 6 to 8 days"],
+		],
+	},
+	{
+		title: "Bean and quality",
+		rows: [
+			["Moisture", "≤ 7.0%"],
+			["Cut test, well fermented", "≥ 85%"],
+			["Bean count", "90 to 100 per 100 g"],
+			["Defects", "≤ 3%"],
+		],
+	},
+	{
+		title: "Commercial",
+		rows: [
+			["Presentation", "65 kg jute, food-grade liner"],
+			["Minimum order", "1 tonne"],
+			["Incoterms", "FOB Guayaquil or EXW Chone"],
+			["Harvest windows", "Mar to Jul, Oct to Dec"],
+		],
+	},
+];
+---
+
+<section class="band band-dark" id="cacao">
+	<div class="shell" data-stagger>
+		<div class="head" data-reveal>
+			<p class="t-eyebrow">The cacao</p>
+			<h2 class="t-h2">Nacional, fino de aroma</h2>
+			<p class="mock-flag">Sample figures. Final specification pending laboratory results.</p>
+		</div>
+
+		<div class="tiles" data-reveal style="--reveal-delay:80ms">
+			{
+				headline.map((t) => (
+					<div class="tile">
+						<p class="v t-data">{t.v}</p>
+						<p class="k">{t.k}</p>
+					</div>
+				))
+			}
+		</div>
+
+		<p class="sensory t-data" data-reveal style="--reveal-delay:140ms">
+			<span>Notes</span> Floral, ripe fruit, light nuts, low bitterness
+		</p>
+
+		<details data-reveal style="--reveal-delay:200ms">
+			<summary>
+				<span class="open-label">Full specification</span>
+				<span class="close-label">Hide specification</span>
+			</summary>
+			<div class="groups">
+				{
+					groups.map((g) => (
+						<div class="group">
+							<h3>{g.title}</h3>
+							<dl>
+								{g.rows.map(([k, v]) => (
+									<div>
+										<dt>{k}</dt>
+										<dd class="t-data">{v}</dd>
+									</div>
+								))}
+							</dl>
+						</div>
+					))
+				}
+			</div>
+		</details>
+
+		<button type="button" class="btn btn-outline sheet-cta" data-enquiry-open data-reveal style="--reveal-delay:240ms">
+			Request samples
+		</button>
+	</div>
+</section>
+
+<style>
+	.head {
+		max-width: 34rem;
+		margin-bottom: 3.5rem;
+	}
+
+	.head h2 {
+		margin-top: 0.875rem;
+	}
+
+	.mock-flag {
+		margin-top: 1.25rem;
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+		color: color-mix(in srgb, var(--color-cream) 62%, transparent);
+		border-left: 2px solid var(--color-orange);
+		padding-left: 0.875rem;
+	}
+
+	.tiles {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1px;
+		background: color-mix(in srgb, var(--color-cream) 18%, transparent);
+		border: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+	}
+
+	@media (min-width: 760px) {
+		.tiles {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	.tile {
+		background: var(--color-blue);
+		padding: 2rem 1.5rem;
+	}
+
+	.tile .v {
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+		line-height: 1;
+		color: var(--color-orange);
+	}
+
+	.tile .k {
+		margin-top: 0.75rem;
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--color-cream) 70%, transparent);
+	}
+
+	.sensory {
+		margin-top: 2rem;
+		font-size: 0.9375rem;
+	}
+
+	.sensory span {
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-orange);
+		margin-right: 0.875rem;
+	}
+
+	details {
+		margin-top: 3rem;
+		border-top: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+	}
+
+	summary {
+		list-style: none;
+		cursor: pointer;
+		padding-block: 1.5rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-orange);
+		transition: color 150ms ease;
+	}
+
+	summary::-webkit-details-marker {
+		display: none;
+	}
+
+	details[open] .open-label,
+	details:not([open]) .close-label {
+		display: none;
+	}
+
+	.groups {
+		display: grid;
+		gap: 2.5rem;
+		padding-bottom: 2.5rem;
+	}
+
+	@media (min-width: 820px) {
+		.groups {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 3rem;
+		}
+	}
+
+	.group h3 {
+		font-family: var(--font-body);
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--color-cream) 55%, transparent);
+		padding-bottom: 1rem;
+		margin-bottom: 1rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+	}
+
+	.group dl > div {
+		display: flex;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding-block: 0.5rem;
+	}
+
+	dt {
+		font-size: 0.8125rem;
+		color: color-mix(in srgb, var(--color-cream) 62%, transparent);
+	}
+
+	dd {
+		font-size: 0.8125rem;
+		text-align: right;
+	}
+
+	.sheet-cta {
+		margin-top: 2.5rem;
+	}
+</style>

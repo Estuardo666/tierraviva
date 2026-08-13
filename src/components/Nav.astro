@@ -1,0 +1,380 @@
+---
+/**
+ * Progressive blur ramp, strongest at the very top and fading to nothing well
+ * below the bar. Each layer is masked from the top down to `stop` and fades
+ * out by `fade`, so the layers accumulate toward the top instead of tiling
+ * into six visible bands. The ramp is 150px tall against an 84px bar, which
+ * is what makes the transition to unblurred content invisible.
+ *
+ * The two backdrop-filter declarations are written inline on purpose. In a
+ * stylesheet the CSS minifier collapses them into the -webkit- form alone,
+ * and Chrome dropped that alias, so the blur silently disappears in the build
+ * while working in dev. Inline styles are never rewritten.
+ */
+const layers = [
+	{ b: 0.5, stop: 100, fade: 100 },
+	{ b: 1, stop: 80, fade: 100 },
+	{ b: 2, stop: 60, fade: 82 },
+	{ b: 4, stop: 44, fade: 64 },
+	{ b: 8, stop: 28, fade: 47 },
+	{ b: 16, stop: 14, fade: 30 },
+];
+
+const links = [
+	{ href: "#origin", label: "Origin" },
+	{ href: "#process", label: "Process" },
+	{ href: "#cacao", label: "Cacao" },
+	{ href: "#traceability", label: "Traceability" },
+	{ href: "#contact", label: "Contact" },
+];
+---
+
+<header class="nav" data-nav data-scheme="dark">
+	<div class="nav-blur" aria-hidden="true">
+		{
+			layers.map((l) => (
+				<div
+					style={`--stop:${l.stop}%; --fade:${l.fade}%; -webkit-backdrop-filter: blur(${l.b}px); backdrop-filter: blur(${l.b}px)`}
+				/>
+			))
+		}
+	</div>
+
+	<div class="shell nav-inner">
+		<a href="#top" class="nav-logo">
+			<span class="sr-only">Tierra Viva, Regenerative Cacao at Origin</span>
+			<img class="wordmark on-dark" src="/logos/logo-dark-bg.png" alt="" width="433" height="301" />
+			<img class="wordmark on-light" src="/logos/logo-light-bg.png" alt="" width="723" height="502" />
+			<img class="symbol" src="/logos/symbol.png" alt="" width="270" height="383" />
+		</a>
+
+		<nav class="nav-links" aria-label="Main">
+			{links.map((l) => <a href={l.href}>{l.label}</a>)}
+		</nav>
+
+		<button type="button" class="btn btn-primary nav-cta" data-enquiry-open>Request samples</button>
+
+		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-drawer" data-nav-toggle>
+			<span class="sr-only">Menu</span>
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+				<path d="M3 7h18M3 12h18M3 17h18" />
+			</svg>
+		</button>
+	</div>
+
+	<div class="nav-drawer" id="nav-drawer" hidden data-nav-drawer>
+		<div class="shell">
+			{links.map((l) => <a href={l.href}>{l.label}</a>)}
+			<button type="button" class="btn btn-primary" data-enquiry-open>Request samples</button>
+		</div>
+	</div>
+</header>
+
+<style>
+	/* No ground of its own. The bar carries only the blur ramp, and its ink
+	   flips to match whatever section is passing underneath it. */
+	.nav {
+		--nav-ink: var(--color-cream);
+		position: fixed;
+		inset-block-start: 0;
+		inset-inline: 0;
+		z-index: 50;
+	}
+
+	.nav[data-scheme="light"] {
+		--nav-ink: var(--color-ink);
+	}
+
+	.nav-blur {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline: 0;
+		height: 150px;
+		pointer-events: none;
+	}
+
+	.nav-blur > div {
+		position: absolute;
+		inset: 0;
+		mask-image: linear-gradient(to bottom, #000 var(--stop), transparent var(--fade));
+	}
+
+	/* No backdrop-filter, or the reader asked for less transparency: the ramp
+	   is decorative, so it simply does not render. The ink still flips, which
+	   is what carries legibility. */
+	@supports not (backdrop-filter: blur(1px)) {
+		.nav-blur {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-transparency: reduce) {
+		.nav-blur {
+			display: none;
+		}
+	}
+
+	.nav-inner {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		height: 5.25rem;
+		color: var(--nav-ink);
+		transition: color 260ms ease;
+	}
+
+	/* Widths are derived from each mark's own aspect at the target height, so
+	   the container never becomes the constraint. Wordmarks are 433x301 and
+	   723x502, the symbol 270x383; get this wrong and the box crops the
+	   height silently. */
+	.nav-logo {
+		--mark-h: 4rem;
+		position: relative;
+		display: grid;
+		place-items: center start;
+		min-height: 44px;
+		width: 5.76rem;
+	}
+
+	.nav-logo img {
+		grid-area: 1 / 1;
+		display: block;
+		width: auto;
+		height: var(--mark-h);
+		opacity: 0;
+		transform: scale(0.96);
+		transition: opacity 260ms var(--ease-out), transform 320ms var(--ease-out);
+	}
+
+	.nav-logo .symbol {
+		height: calc(var(--mark-h) * 0.82);
+		opacity: 1;
+		transform: none;
+	}
+
+	.nav[data-top] .nav-logo .symbol {
+		opacity: 0;
+		transform: scale(0.94);
+	}
+
+	/* Two versions of the wordmark, one drawn in cream and one in the brand
+	   blue. Which is correct is a property of the section behind the bar, not
+	   of the scroll position. */
+	.nav[data-top][data-scheme="dark"] .nav-logo .on-dark,
+	.nav[data-top][data-scheme="light"] .nav-logo .on-light {
+		opacity: 1;
+		transform: none;
+	}
+
+	.nav-links {
+		display: none;
+		gap: 2rem;
+		font-size: 0.8125rem;
+		letter-spacing: 0.04em;
+	}
+
+	.nav-links a {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		transition: color 150ms ease;
+	}
+
+	.nav-links a::after {
+		content: "";
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0.875rem;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 200ms var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.nav-links a:hover::after {
+			transform: scaleX(1);
+		}
+	}
+
+	.nav-cta {
+		display: none;
+		min-height: 44px;
+		padding: 0.625rem 1.125rem;
+		font-size: 0.6875rem;
+	}
+
+	.nav-toggle {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		margin-inline-end: -0.625rem;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	.nav-toggle svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	/* The drawer is its own dark panel, so it keeps cream ink regardless of
+	   what the bar is doing. */
+	.nav-drawer {
+		position: relative;
+		background: var(--color-blue);
+		color: var(--color-cream);
+		border-top: 1px solid color-mix(in srgb, var(--color-cream) 14%, transparent);
+		padding-block: 1.25rem 1.75rem;
+	}
+
+	.nav-drawer .shell {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.nav-drawer a:not(.btn) {
+		color: var(--color-cream);
+		font-size: 1rem;
+		padding-block: 0.75rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 12%, transparent);
+	}
+
+	.nav-drawer .btn {
+		margin-top: 1.25rem;
+		align-self: flex-start;
+	}
+
+	.nav[data-scheme="light"] .nav-inner :focus-visible {
+		outline-color: var(--color-orange-ink);
+	}
+
+	.nav[data-scheme="dark"] .nav-inner :focus-visible {
+		outline-color: var(--color-orange);
+	}
+
+	@media (min-width: 900px) {
+		.nav-links,
+		.nav-cta {
+			display: flex;
+		}
+
+		.nav-toggle {
+			display: none;
+		}
+
+		.nav-drawer {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.nav-inner,
+		.nav-logo img {
+			transition: none;
+		}
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+</style>
+
+<script>
+	const nav = document.querySelector<HTMLElement>("[data-nav]");
+	const toggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
+	const drawer = document.querySelector<HTMLElement>("[data-nav-drawer]");
+
+	if (nav && "IntersectionObserver" in window) {
+		// --- Collapsed / expanded mark ------------------------------------
+		// Sentinel-based, so the bar never listens to raw scroll events.
+		const sentinel = document.createElement("div");
+		sentinel.style.cssText = "position:absolute;top:0;height:80vh;width:1px;pointer-events:none;";
+		document.body.prepend(sentinel);
+
+		new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) nav.setAttribute("data-top", "");
+				else nav.removeAttribute("data-top");
+			},
+			{ threshold: 0 },
+		).observe(sentinel);
+
+		// --- Ink scheme ----------------------------------------------------
+		// Which ink the bar needs is a property of the section behind it, so
+		// read each section's own ground rather than maintaining a hand-written
+		// list that drifts the moment a section changes colour.
+		const luminance = (color: string) => {
+			const m = color.match(/[\d.]+/g);
+			if (!m || m.length < 3) return 1;
+			const alpha = m.length > 3 ? Number(m[3]) : 1;
+			// A transparent section sits on the page ground, which is light.
+			if (alpha < 0.5) return 1;
+			const [r, g, b] = m.slice(0, 3).map((v) => {
+				const c = Number(v) / (color.startsWith("color(") ? 1 : 255);
+				return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+			});
+			return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+		};
+
+		const bands = [...document.querySelectorAll<HTMLElement>("main > section, footer")].map(
+			(el) => ({ el, scheme: luminance(getComputedStyle(el).backgroundColor) < 0.4 ? "dark" : "light" }),
+		);
+
+		let observer: IntersectionObserver | null = null;
+
+		const watch = () => {
+			observer?.disconnect();
+
+			// A one-pixel band at the vertical middle of the bar: exactly one
+			// section can intersect it, and that is the one underneath.
+			const line = nav.getBoundingClientRect().height / 2;
+			observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (!entry.isIntersecting) return;
+						const band = bands.find((b) => b.el === entry.target);
+						if (band) nav.setAttribute("data-scheme", band.scheme);
+					});
+				},
+				{ rootMargin: `-${line}px 0px -${Math.max(window.innerHeight - line - 1, 0)}px 0px` },
+			);
+
+			bands.forEach((b) => observer!.observe(b.el));
+		};
+
+		watch();
+
+		// The band is expressed in pixels, so it has to be rebuilt when the
+		// viewport height changes.
+		let resizeTimer = 0;
+		window.addEventListener("resize", () => {
+			window.clearTimeout(resizeTimer);
+			resizeTimer = window.setTimeout(watch, 150);
+		});
+	}
+
+	toggle?.addEventListener("click", () => {
+		const open = toggle.getAttribute("aria-expanded") === "true";
+		toggle.setAttribute("aria-expanded", String(!open));
+		if (drawer) drawer.hidden = open;
+	});
+
+	drawer?.querySelectorAll("a, button").forEach((el) =>
+		el.addEventListener("click", () => {
+			toggle?.setAttribute("aria-expanded", "false");
+			if (drawer) drawer.hidden = true;
+		}),
+	);
+</script>

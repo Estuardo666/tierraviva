@@ -1,0 +1,961 @@
+{
+  "nodes": [
+    {
+      "id": "astro_config",
+      "label": "astro.config.mjs",
+      "file_type": "code",
+      "source_file": "astro.config.mjs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "package",
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_engines",
+      "label": "engines",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_engines_node",
+      "label": "node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_build",
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_preview",
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_astro",
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies",
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_astro",
+      "label": "astro",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "astro",
+      "label": "astro",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_graphql",
+      "label": "graphql",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "graphql",
+      "label": "graphql",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_graphql_request",
+      "label": "graphql-request",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast"
+    },
+    {
+      "id": "graphql_request",
+      "label": "graphql-request",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_motion",
+      "label": "motion",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "motion",
+      "label": "motion",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies",
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_tailwindcss_vite",
+      "label": "@tailwindcss/vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "tailwindcss_vite",
+      "label": "@tailwindcss/vite",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_tailwindcss",
+      "label": "tailwindcss",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "tailwindcss",
+      "label": "tailwindcss",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_lib_wpgraphql",
+      "label": "wpgraphql.ts",
+      "file_type": "code",
+      "source_file": "src/lib/wpgraphql.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_lib_wpgraphql_wpgraphql",
+      "label": "wpGraphQL()",
+      "file_type": "code",
+      "source_file": "src/lib/wpgraphql.ts",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_pages_index",
+      "label": "index.astro",
+      "file_type": "code",
+      "source_file": "src/pages/index.astro",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "c_users_stuart_documents_terra_viva_frontend_src_styles_global_css",
+      "label": "../styles/global.css",
+      "file_type": "code",
+      "source_file": "src/styles/global.css",
+      "confidence": "EXTRACTED",
+      "_origin": "ast"
+    },
+    {
+      "id": "tsconfig",
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "tsconfig_extends",
+      "label": "extends",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "ref_astro_tsconfigs_strict",
+      "label": "astro/tsconfigs/strict",
+      "file_type": "concept",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "tsconfig_include",
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "ref_astro_types_d_ts",
+      "label": ".astro/types.d.ts",
+      "file_type": "concept",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "ref",
+      "label": "**/*",
+      "file_type": "concept",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "tsconfig_exclude",
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "ref_dist",
+      "label": "dist",
+      "file_type": "concept",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "development",
+      "label": "Development",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_dev_background",
+      "label": "astro dev --background",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_dev_stop",
+      "label": "astro dev stop",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_dev_status",
+      "label": "astro dev status",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_dev_logs",
+      "label": "astro dev logs",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "documentation",
+      "label": "Documentation",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_docs",
+      "label": "Astro documentation",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "routing_guide",
+      "label": "Routing guide",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_components_guide",
+      "label": "Astro components guide",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "framework_components_guide",
+      "label": "Framework components guide",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "content_collections_guide",
+      "label": "Content collections guide",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "styling_tailwind_guide",
+      "label": "Styling and Tailwind guide",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "internationalization_guide",
+      "label": "Internationalization guide",
+      "file_type": "document",
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "astro_starter_kit",
+      "label": "Astro Starter Kit: Minimal",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "public_directory",
+      "label": "public/ directory",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "src_pages_directory",
+      "label": "src/pages/ directory",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "index_astro",
+      "label": "src/pages/index.astro",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "components_directory",
+      "label": "src/components/ directory",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "static_assets",
+      "label": "Static assets",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "npm_install",
+      "label": "npm install",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "npm_run_dev",
+      "label": "npm run dev",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "npm_run_build",
+      "label": "npm run build",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "npm_run_preview",
+      "label": "npm run preview",
+      "file_type": "document",
+      "source_file": "README.md"
+    },
+    {
+      "id": "npm_run_astro",
+      "label": "npm run astro ...",
+      "file_type": "document",
+      "source_file": "README.md"
+    }
+  ],
+  "edges": [
+    {
+      "source": "astro_config",
+      "target": "ref_astro_config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "astro.config.mjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "astro_config",
+      "target": "ref_tailwindcss_vite",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "astro.config.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_engines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_engines",
+      "target": "package_engines_node",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_astro",
+      "target": "astro",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_graphql",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_graphql",
+      "target": "graphql",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_graphql_request",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_graphql_request",
+      "target": "graphql_request",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_motion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_motion",
+      "target": "motion",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_devdependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss_vite",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_tailwindcss_vite",
+      "target": "tailwindcss_vite",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_tailwindcss",
+      "target": "tailwindcss",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "src_lib_wpgraphql",
+      "target": "src_lib_wpgraphql_wpgraphql",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/wpgraphql.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_pages_index",
+      "target": "c_users_stuart_documents_terra_viva_frontend_src_styles_global_css",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.astro",
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_extends",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig",
+      "target": "ref_astro_tsconfigs_strict",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_include",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig_include",
+      "target": "ref_astro_types_d_ts",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig_include",
+      "target": "ref",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig",
+      "target": "tsconfig_exclude",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "tsconfig_exclude",
+      "target": "ref_dist",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "development",
+      "target": "astro_dev_background",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "development",
+      "target": "astro_dev_stop",
+      "relation": "manages_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "development",
+      "target": "astro_dev_status",
+      "relation": "manages_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "development",
+      "target": "astro_dev_logs",
+      "relation": "manages_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "astro_docs",
+      "relation": "links_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "routing_guide",
+      "relation": "consults",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "astro_components_guide",
+      "relation": "consults",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "framework_components_guide",
+      "relation": "consults",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "content_collections_guide",
+      "relation": "consults",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "styling_tailwind_guide",
+      "relation": "consults",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "documentation",
+      "target": "internationalization_guide",
+      "relation": "consults",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "source": "src_pages_directory",
+      "target": "index_astro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    },
+    {
+      "source": "static_assets",
+      "target": "public_directory",
+      "relation": "stored_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    },
+    {
+      "source": "astro_starter_kit",
+      "target": "npm_install",
+      "relation": "supports_command",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    },
+    {
+      "source": "astro_starter_kit",
+      "target": "npm_run_dev",
+      "relation": "supports_command",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    },
+    {
+      "source": "astro_starter_kit",
+      "target": "npm_run_build",
+      "relation": "supports_command",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    },
+    {
+      "source": "astro_starter_kit",
+      "target": "npm_run_preview",
+      "relation": "supports_command",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    },
+    {
+      "source": "astro_starter_kit",
+      "target": "npm_run_astro",
+      "relation": "supports_command",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md"
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 650,
+  "output_tokens": 900
+}

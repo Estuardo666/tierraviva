@@ -1,0 +1,31 @@
+---
+const audiences = ["Fine chocolate brands", "Craft chocolate makers", "Importers and traders"];
+---
+
+<section class="band band-dark" id="contact">
+	<div class="shell">
+		<div class="audience" data-reveal data-stagger>
+			<p class="t-eyebrow">Who we work with</p>
+			<ul>
+				{audiences.map((a) => <li class="t-h3" data-reveal>{a}</li>)}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.audience ul {
+		list-style: none;
+		display: grid;
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+
+	@media (min-width: 820px) {
+		.audience ul {
+			grid-template-columns: 1.3fr 1fr 1fr;
+			gap: 2rem;
+			align-items: baseline;
+		}
+	}
+</style>

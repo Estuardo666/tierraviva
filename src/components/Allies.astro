@@ -1,0 +1,145 @@
+---
+/**
+ * Placeholder growers. Names, plots and photographs to be replaced with the
+ * real partner list; the external link is what makes this section verifiable,
+ * so keep it when the real data lands.
+ */
+const allies = [
+	{
+		name: "Finca La Herradura",
+		place: "Río Grande, Chone",
+		body: "Eight hectares under mixed canopy, worked by the Zambrano family since 1998. Joined the centralized fermentation programme in its first season.",
+		img: "/media/ally-1.jpg",
+	},
+	{
+		name: "Asociación San Lorenzo",
+		place: "Canuto, Manabí",
+		body: "Fourteen smallholders pooling harvest into shared collection days, which is what makes a single fermentation protocol possible across small plots.",
+		img: "/media/ally-2.jpg",
+	},
+	{
+		name: "Finca El Aromo",
+		place: "Tosagua, Manabí",
+		body: "A recovery plot: old commodity-clone cacao being grafted back to Nacional, with shade species planted between rows.",
+		img: "/media/ally-3.jpg",
+	},
+];
+
+const certs = ["Organic", "Rainforest Alliance", "Export registry", "Laboratory analysis"];
+---
+
+<section class="band allies">
+	<div class="shell" data-stagger>
+		<h2 class="t-h2 head" data-reveal>The growers</h2>
+
+		<div class="grid">
+			{
+				allies.map((a, i) => (
+					<article data-reveal>
+						<figure class="media" data-img-reveal>
+							{/* TODO: real grower photograph, 700x850 */}
+							<img
+								src={a.img}
+								alt={`${a.name}, ${a.place}`}
+								width="700"
+								height="850"
+								loading="lazy"
+								decoding="async"
+							/>
+						</figure>
+						<h3 class="t-h3">{a.name}</h3>
+						<p class="place t-data">{a.place}</p>
+						<p class="t-body">{a.body}</p>
+					</article>
+				))
+			}
+		</div>
+
+		<div class="certs" data-reveal>
+			<p class="certs-label">Certifications in process</p>
+			<ul>
+				{certs.map((c) => <li>{c}</li>)}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.allies {
+		background: color-mix(in srgb, var(--color-sand) 24%, var(--color-cream));
+	}
+
+	.head {
+		margin-bottom: 3rem;
+	}
+
+	.grid {
+		display: grid;
+		gap: 3rem;
+	}
+
+	@media (min-width: 820px) {
+		.grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2.5rem;
+		}
+	}
+
+	figure {
+		margin: 0 0 1.5rem;
+		aspect-ratio: 7 / 8;
+	}
+
+	h3 {
+		margin-bottom: 0.35rem;
+	}
+
+	.place {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-orange-ink);
+		margin-bottom: 0.875rem;
+	}
+
+	.t-body {
+		font-size: 0.9375rem;
+		color: var(--color-ink-70);
+	}
+
+	.certs {
+		margin-top: 4.5rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.certs-label {
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-ink-45);
+		margin-bottom: 1.5rem;
+	}
+
+	.certs ul {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	/* Empty slots until the client supplies logo files. */
+	.certs li {
+		display: grid;
+		place-items: center;
+		min-width: 9rem;
+		height: 3.5rem;
+		padding-inline: 1.25rem;
+		border: 1px dashed var(--color-rule);
+		font-size: 0.6875rem;
+		letter-spacing: 0.08em;
+		color: var(--color-ink-45);
+	}
+</style>

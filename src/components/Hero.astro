@@ -1,0 +1,151 @@
+---
+import Credentials from "./Credentials.astro";
+
+/**
+ * Centred hero over a muted background video (client direction, Cuvée reference).
+ * Footage supplied by the client, re-encoded to ~0.8 MB per format from the
+ * 15 MB original. The poster is a frame of that same footage and is the sole
+ * visual if the video is blocked or the visitor prefers reduced motion.
+ */
+const poster = "/media/hero-poster.jpg";
+const hasVideo = true;
+---
+
+<section class="hero" id="top">
+	<div class="hero-media" aria-hidden="true" style={`--hero-poster:url("${poster}")`}>
+		{
+			hasVideo ? (
+				<video data-hero-video poster={poster} autoplay muted loop playsinline preload="metadata">
+					<source src="/media/hero.webm" type="video/webm" />
+					<source src="/media/hero.mp4" type="video/mp4" />
+				</video>
+			) : (
+				<div class="hero-still" style={`background-image:url("${poster}")`} />
+			)
+		}
+		<div class="hero-scrim"></div>
+	</div>
+
+	<div class="shell hero-content hero-load">
+		<p class="hero-eyebrow" style="--hero-delay:120ms">Chone, Manabí · Ecuador</p>
+		<h1 class="t-display" style="--hero-delay:220ms">Regenerative Cacao at Origin</h1>
+		<p class="hero-sub" style="--hero-delay:340ms">
+			From the land of Manabí, Ecuador, to the world.
+		</p>
+		<div style="--hero-delay:440ms">
+			<a href="#origin" class="btn btn-primary">Explore the origin</a>
+		</div>
+	</div>
+
+	<Credentials />
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		min-height: 100dvh;
+		display: grid;
+		place-items: center;
+		text-align: center;
+		overflow: hidden;
+		background: var(--color-blue);
+		color: var(--color-cream);
+	}
+
+	.hero-media {
+		position: absolute;
+		inset: 0;
+	}
+
+	.hero-media video {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero-still {
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+	}
+
+	/* Sized against the worst case: a pure-white frame in whatever footage
+	   lands here later. At a 70% floor, cream text holds 5:1 even then. Going
+	   lighter would look better on the current still and fail on a bright one. */
+	.hero-scrim {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			color-mix(in srgb, var(--color-blue) 80%, transparent) 0%,
+			color-mix(in srgb, var(--color-blue) 70%, transparent) 45%,
+			color-mix(in srgb, var(--color-blue) 84%, transparent) 100%
+		);
+	}
+
+	.hero-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+		padding-block: 6rem 12rem;
+	}
+
+	@media (min-width: 768px) {
+		.hero-content {
+			padding-block: 7rem 8.5rem;
+		}
+	}
+
+	/* Cream, not the orange accent: orange would need an 84% scrim to pass AA
+	   over bright footage, which would flatten the video. The CTA carries the
+	   accent in this section instead. */
+	.hero-eyebrow {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-cream);
+	}
+
+	.hero-content h1 {
+		max-width: 16ch;
+	}
+
+	.hero-sub {
+		font-size: clamp(1rem, 1.6vw, 1.3125rem);
+		font-weight: 200;
+		letter-spacing: 0.01em;
+		max-width: 34ch;
+		color: color-mix(in srgb, var(--color-cream) 88%, transparent);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-media video {
+			display: none;
+		}
+
+		.hero-media {
+			background-image: var(--hero-poster);
+			background-size: cover;
+			background-position: center;
+		}
+	}
+</style>
+
+<script>
+	// Honour reduced motion at runtime too: autoplay must not survive the query.
+	const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+	const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	const apply = () => {
+		if (!video) return;
+		if (reduce.matches) video.pause();
+		else video.play().catch(() => {});
+	};
+
+	apply();
+	reduce.addEventListener("change", apply);
+</script>

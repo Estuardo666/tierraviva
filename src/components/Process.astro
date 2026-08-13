@@ -1,0 +1,274 @@
+---
+/**
+ * Numbered because the content genuinely is a sequence: each step depends on
+ * the one before it, and a buyer reads it to audit the post-harvest chain.
+ */
+const steps = [
+	{
+		title: "Regenerative growing",
+		body: "Cacao under native shade trees, mixed with fruit and timber species. Soil cover stays undisturbed so the midges that pollinate the flower survive.",
+		img: "/media/process-1.jpg",
+	},
+	{
+		title: "Harvest",
+		body: "Pods cut by hand at colour break, plot by plot. Under-ripe and diseased pods are separated before they ever reach the boxes.",
+		img: "/media/process-2.jpg",
+	},
+	{
+		title: "Centralized fermentation",
+		body: "Wooden cascade boxes at one facility. Turned on schedule, temperature and pH logged per batch across five to six days.",
+		img: "/media/process-3.jpg",
+	},
+	{
+		title: "Drying",
+		body: "Sun-dried on raised beds over six to eight days, raked in a fixed rotation to bring moisture down without case hardening.",
+		img: "/media/process-4.jpg",
+	},
+	{
+		title: "Quality control and lot release",
+		body: "Cut test, moisture and bean count on every lot. The result travels with the beans as a lot code, not a claim.",
+		img: "/media/process-5.jpg",
+	},
+];
+---
+
+<section class="band" id="process">
+	<div class="shell">
+		<h2 class="t-h2 head" data-reveal>From canopy to lot code</h2>
+
+		<div class="scrolly" data-scrolly>
+			<ol>
+				{
+					steps.map((step, i) => (
+						<li data-reveal data-step={i} style={`--reveal-delay:${i * 70}ms`}>
+							<span class="num t-data">{String(i + 1).padStart(2, "0")}</span>
+							<div class="text">
+								<h3 class="t-h3">{step.title}</h3>
+								<p class="t-body">{step.body}</p>
+							</div>
+							<figure class="media" data-img-reveal data-figure={i}>
+								{/* TODO: real process photograph, 800x600 */}
+								<img
+									src={step.img}
+									alt={step.title}
+									width="800"
+									height="600"
+									loading="lazy"
+									decoding="async"
+								/>
+							</figure>
+						</li>
+					))
+				}
+			</ol>
+
+			{/* Filled by script at desktop widths only. Without JS the figures
+			    stay inside their steps and the section reads exactly as before. */}
+			<div class="stick" data-stick hidden>
+				<div class="stack" data-stack></div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.head {
+		max-width: 14ch;
+		margin-bottom: 3.5rem;
+	}
+
+	.scrolly {
+		display: grid;
+	}
+
+	ol {
+		list-style: none;
+		display: grid;
+		gap: 0;
+		min-width: 0;
+	}
+
+	li {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.25rem 1.25rem;
+		align-items: start;
+		padding-block: 2.25rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	li:last-child {
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.num {
+		font-family: var(--font-display);
+		font-size: 1.125rem;
+		color: var(--color-orange-ink);
+		padding-top: 0.35rem;
+	}
+
+	.text h3 {
+		margin-bottom: 0.625rem;
+	}
+
+	.text p {
+		color: var(--color-ink-70);
+	}
+
+	figure {
+		margin: 1.5rem 0 0;
+		grid-column: 2;
+		aspect-ratio: 4 / 3;
+	}
+
+	@media (min-width: 900px) {
+		.scrolly {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
+			gap: 2.5rem;
+			align-items: start;
+		}
+
+		li {
+			grid-template-columns: 4rem minmax(0, 1fr);
+			gap: 2.5rem;
+			align-items: center;
+			padding-block: 2.75rem;
+		}
+
+		figure {
+			margin: 0;
+			grid-column: auto;
+			aspect-ratio: 3 / 2;
+		}
+
+		/* Sticky column. Clears the fixed nav, then holds while the steps run
+		   past it. Vertically centred against the band the steps cross. */
+		.stick {
+			position: sticky;
+			inset-block-start: calc(5.25rem + 2.75rem);
+			align-self: start;
+		}
+
+		.stack {
+			position: relative;
+			aspect-ratio: 3 / 2;
+		}
+
+		.stack :global(figure) {
+			position: absolute;
+			inset: 0;
+			margin: 0;
+			opacity: 0;
+			transition: opacity 340ms var(--ease-out);
+		}
+
+		/* Exactly one visible at a time. */
+		.stack :global(figure[data-active]) {
+			opacity: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.stack :global(figure) {
+			transition: none;
+		}
+	}
+</style>
+
+
+<script>
+	/**
+	 * Scrollytelling, desktop only. The five figures are lifted out of their
+	 * steps into one sticky frame; whichever step is crossing the middle of the
+	 * viewport owns the frame. Nothing else about the section changes: same
+	 * copy, same numbers, same images, same widths, same rules.
+	 *
+	 * Progressive enhancement by construction. The figures ship inside their
+	 * steps, so with no JS (or below 900px) the section is the original layout.
+	 */
+	const root = document.querySelector<HTMLElement>("[data-scrolly]");
+	const stick = document.querySelector<HTMLElement>("[data-stick]");
+	const stack = document.querySelector<HTMLElement>("[data-stack]");
+	const desktop = window.matchMedia("(min-width: 900px)");
+	const canObserve = "IntersectionObserver" in window;
+
+	if (root && stick && stack && canObserve) {
+		const steps = [...root.querySelectorAll<HTMLElement>("[data-step]")];
+		const figures = [...root.querySelectorAll<HTMLElement>("[data-figure]")];
+		const homes = figures.map((f) => f.parentElement as HTMLElement);
+
+		let observer: IntersectionObserver | null = null;
+		let active = -1;
+		let ran = false;
+
+		const setActive = (i: number) => {
+			if (i === active) return;
+			active = i;
+			figures.forEach((f, n) => f.toggleAttribute("data-active", n === i));
+		};
+
+		const lift = () => {
+			figures.forEach((f) => {
+				// The wipe belongs to the inline layout; in the frame the image
+				// is already there and only its opacity changes.
+				f.removeAttribute("data-img-reveal");
+				f.classList.add("is-in");
+				f.removeAttribute("data-active");
+				stack.append(f);
+			});
+			stick.hidden = false;
+			active = -1;
+			setActive(0);
+
+			// A one-pixel band at the vertical centre: a step intersects it only
+			// while it is the step in the middle of the screen.
+			observer = new IntersectionObserver(
+				(entries) => {
+					// Set on any callback, not on an intersection: at load the
+					// reader is at the hero and no step is at the centre of the
+					// screen, so waiting for one would tear the section down
+					// before it was ever reached.
+					ran = true;
+					entries.forEach((e) => {
+						if (!e.isIntersecting) return;
+						setActive(Number((e.target as HTMLElement).dataset.step));
+					});
+				},
+				{ rootMargin: "-50% 0px -50% 0px", threshold: 0 },
+			);
+			steps.forEach((s) => observer!.observe(s));
+
+			// Safety net. If the observer never runs at all, the frame would hold
+			// the first image for the whole section. Hand the figures back to
+			// their steps and render the original layout instead.
+			window.setTimeout(() => {
+				if (!ran && lifted) {
+					lifted = false;
+					drop();
+				}
+			}, 3000);
+		};
+
+		const drop = () => {
+			observer?.disconnect();
+			observer = null;
+			figures.forEach((f, i) => {
+				f.removeAttribute("data-active");
+				homes[i].append(f);
+			});
+			stick.hidden = true;
+			active = -1;
+		};
+
+		let lifted = false;
+		const sync = () => {
+			if (desktop.matches === lifted) return;
+			lifted = desktop.matches;
+			lifted ? lift() : drop();
+		};
+
+		sync();
+		desktop.addEventListener("change", sync);
+	}
+</script>

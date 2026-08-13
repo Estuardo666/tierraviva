@@ -1,0 +1,20 @@
+---
+/**
+ * Text link with a travelling arrow: the glyph leaves the frame to the right
+ * while its twin arrives from the left, so the link reads as forward motion.
+ * Styling lives in global.css under .link-arrow.
+ */
+interface Props {
+	href: string;
+	rel?: string;
+}
+
+const { href, rel } = Astro.props;
+
+const arrow = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg>`;
+---
+
+<a href={href} rel={rel} class="link-arrow">
+	<span class="label"><slot /></span>
+	<span class="track" aria-hidden="true" set:html={arrow + arrow} />
+</a>

@@ -1,0 +1,123 @@
+---
+import BrandIcon from "./BrandIcon.astro";
+
+const parts = [
+	{ code: "TV", label: "Tierra Viva" },
+	{ code: "CH", label: "Chone" },
+	{ code: "2026", label: "Harvest year" },
+	{ code: "014", label: "Fermentation lot" },
+];
+---
+
+<section class="band" id="traceability">
+	<div class="shell split" data-stagger>
+		<div data-reveal>
+			<p class="t-eyebrow">Traceability</p>
+			<h2 class="t-h2">Every bag carries its own address</h2>
+			<p class="t-body">
+				A lot code is assigned at fermentation and stays with the beans through drying,
+				quality control and shipping. Given the code, we can name the plots the pods came
+				from, the days the batch was turned, and the cut test it passed.
+			</p>
+			<p class="t-body">
+				For a maker, that is the difference between a story about origin and a record of it.
+			</p>
+		</div>
+
+		<div class="decode" data-reveal style="--reveal-delay:90ms">
+			<BrandIcon name="lattice" class="ico" data-draw />
+			<p class="code t-data">TV-CH-2026-014</p>
+			<p class="mock-flag">Example code</p>
+			<dl>
+				{
+					parts.map((p) => (
+						<div>
+							<dt class="t-data">{p.code}</dt>
+							<dd>{p.label}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</div>
+	</div>
+</section>
+
+<style>
+	.split {
+		display: grid;
+		gap: 3rem;
+	}
+
+	@media (min-width: 880px) {
+		.split {
+			grid-template-columns: 1fr 0.8fr;
+			gap: 5rem;
+			align-items: center;
+		}
+	}
+
+	h2 {
+		margin: 0.875rem 0 1.5rem;
+		max-width: 15ch;
+	}
+
+	.t-body {
+		color: var(--color-ink-70);
+	}
+
+	.t-body + .t-body {
+		margin-top: 1.125rem;
+	}
+
+	.decode {
+		border: 1px solid var(--color-rule);
+		padding: 2.25rem;
+	}
+
+	.decode :global(.ico) {
+		width: 36px;
+		height: 36px;
+		color: var(--color-orange-ink);
+		margin-bottom: 1.5rem;
+	}
+
+	.code {
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 3vw, 2.125rem);
+		line-height: 1;
+	}
+
+	.mock-flag {
+		margin-top: 0.5rem;
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-ink-45);
+	}
+
+	dl {
+		margin-top: 2rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	dl > div {
+		display: flex;
+		gap: 1.5rem;
+		align-items: baseline;
+		padding-block: 0.75rem;
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	dt {
+		font-weight: 700;
+		font-size: 0.875rem;
+		color: var(--color-orange-ink);
+		min-width: 4rem;
+	}
+
+	dd {
+		font-size: 0.875rem;
+		color: var(--color-ink-70);
+	}
+</style>

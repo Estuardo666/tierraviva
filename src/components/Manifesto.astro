@@ -1,0 +1,243 @@
+---
+/** Client-supplied copy. Do not paraphrase. */
+const phrase = "Regenerative Cacao at Origin";
+const words = phrase.split(" ");
+---
+
+<section class="band texture manifesto">
+	<div class="shell" data-stagger>
+		<blockquote>
+			<p data-reveal>
+				Cacao begins here, where farmers read the land, care for the soil, and pass
+				down knowledge from one generation to the next.
+			</p>
+
+			<h2
+				class="trail"
+				data-trail
+				data-reveal
+				aria-label={phrase}
+				style="--trail-image: url('/media/grano-cacao.jpg')"
+			>
+				<span class="trail-copy" aria-hidden="true">
+					{
+						words.map((word) => (
+							<span class="trail-word">
+								{[...word].map((letter, index) => (
+									<span class="letter" data-letter data-index={index}>
+										<span class="glyph">{letter}</span>
+									</span>
+								))}
+							</span>
+						))
+					}
+				</span>
+			</h2>
+
+			<p data-reveal>
+				At Tierra Viva, great cacao starts with people, biodiversity, and regenerative
+				agroforestry systems that allow both forests and communities to thrive.
+			</p>
+
+			<p class="close" data-reveal>From the land of Manabí, Ecuador, to the world.</p>
+		</blockquote>
+	</div>
+</section>
+
+<style>
+	.manifesto {
+		border-block: 1px solid var(--color-rule);
+	}
+
+	blockquote {
+		max-width: 54rem;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	blockquote p:not(.close) {
+		font-family: var(--font-display);
+		font-size: clamp(1.375rem, 2.8vw, 2.125rem);
+		line-height: 1.28;
+		letter-spacing: -0.012em;
+		text-wrap: balance;
+	}
+
+	/* Twenty percent larger than the surrounding manifesto copy. The phrase
+	   wraps by whole words so the interactive line remains readable on mobile. */
+	.trail {
+		--frame-width: clamp(3.75rem, 8vw, 5.5rem);
+		margin-block: clamp(2rem, 5vw, 3.25rem);
+		font-family: var(--font-display);
+		font-size: clamp(1.65rem, 3.36vw, 2.55rem);
+		font-weight: 400;
+		line-height: 1.2;
+		letter-spacing: -0.012em;
+		color: var(--color-orange-ink);
+	}
+
+	.trail-copy {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		column-gap: 0.27em;
+		row-gap: 0.2em;
+	}
+
+	.trail-word {
+		display: inline-flex;
+		align-items: center;
+		white-space: nowrap;
+	}
+
+	.letter {
+		position: relative;
+		display: inline-grid;
+		place-items: center;
+		block-size: 1.55em;
+		vertical-align: middle;
+		isolation: isolate;
+	}
+
+	.letter[data-letter] {
+		inline-size: var(--letter-width, auto);
+		transition: inline-size 300ms var(--ease-out);
+	}
+
+	.letter::after {
+		content: "";
+		position: absolute;
+		inset: 0.05em 0;
+		z-index: -1;
+		border-radius: calc(var(--radius-media) * 0.5);
+		background-image: var(--trail-image);
+		background-position: center;
+		background-size: cover;
+		opacity: 0;
+		transform: scale(0.96) rotate(var(--trail-rotation, 0deg));
+		transition: opacity 220ms ease, transform 300ms var(--ease-out);
+	}
+
+	.glyph {
+		display: inline-block;
+		opacity: 1;
+		transition: opacity 160ms ease;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.trail {
+			cursor: default;
+		}
+
+		.letter[data-letter] {
+			pointer-events: auto;
+		}
+
+		.letter.is-active {
+			inline-size: var(--frame-width);
+		}
+
+		.letter.is-active::after {
+			opacity: 1;
+			transform: scale(1) rotate(var(--trail-rotation, 0deg));
+		}
+
+		.letter.is-active .glyph {
+			opacity: 0;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.trail {
+			--frame-width: clamp(3.25rem, 18vw, 4.25rem);
+			font-size: clamp(1.5rem, 7.4vw, 1.9rem);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.letter[data-letter],
+		.letter::after,
+		.glyph {
+			transition: none;
+		}
+	}
+
+	blockquote p:not(.close) + p:not(.close) {
+		margin-top: 1.5rem;
+	}
+
+	.close {
+		font-family: var(--font-body);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-orange-ink);
+		margin-top: 2.5rem;
+	}
+</style>
+
+<script>
+	/**
+	 * Native version of the supplied Framer reference. Each hovered letter
+	 * expands into an inline image and its glyph fades away. Width animation is
+	 * intentional here because making room inside the sentence is the effect.
+	 */
+	const trail = document.querySelector<HTMLElement>("[data-trail]");
+	const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+	const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	if (trail && fine.matches && !reduce.matches) {
+		const letters = [...trail.querySelectorAll<HTMLElement>("[data-letter]")];
+		const live: HTMLElement[] = [];
+		const timers = new Map<HTMLElement, number>();
+		let resizeTimer = 0;
+
+		const cap = () => (window.innerWidth < 720 ? 2 : window.innerWidth < 1000 ? 3 : 5);
+
+		const measure = () => {
+			letters.forEach((letter) => letter.style.removeProperty("--letter-width"));
+			letters.forEach((letter) => {
+				letter.style.setProperty("--letter-width", `${letter.getBoundingClientRect().width}px`);
+			});
+		};
+
+		const deactivate = (letter: HTMLElement) => {
+			letter.classList.remove("is-active");
+			const timer = timers.get(letter);
+			if (timer) window.clearTimeout(timer);
+			timers.delete(letter);
+			const index = live.indexOf(letter);
+			if (index >= 0) live.splice(index, 1);
+		};
+
+		const activate = (letter: HTMLElement) => {
+			deactivate(letter);
+			letter.style.setProperty("--trail-rotation", `${(Math.random() * 6 - 3).toFixed(1)}deg`);
+			letter.classList.add("is-active");
+			live.push(letter);
+
+			while (live.length > cap()) {
+				const oldest = live[0];
+				if (oldest) deactivate(oldest);
+			}
+
+			timers.set(letter, window.setTimeout(() => deactivate(letter), 1200));
+		};
+
+		measure();
+		document.fonts?.ready.then(measure);
+
+		trail.addEventListener("pointerover", (event) => {
+			if (event.pointerType !== "mouse") return;
+			const target = (event.target as HTMLElement).closest<HTMLElement>("[data-letter]");
+			if (target) activate(target);
+		});
+
+		window.addEventListener("resize", () => {
+			window.clearTimeout(resizeTimer);
+			resizeTimer = window.setTimeout(measure, 120);
+		});
+	}
+</script>
