@@ -21,7 +21,7 @@ const words = phrase.split(" ");
 				data-trail
 				data-reveal
 				aria-label={phrase}
-				style="--trail-image: url('/media/grano-cacao.jpg')"
+				style="--trail-image: url('/media/grano-cacao2.png')"
 			>
 				<span class="trail-copy" aria-hidden="true">
 					{
@@ -67,7 +67,7 @@ const words = phrase.split(" ");
 	/* Twenty percent larger than the surrounding manifesto copy. The phrase
 	   wraps by whole words so the interactive line remains readable on mobile. */
 	.trail {
-		--frame-width: clamp(3.75rem, 8vw, 5.5rem);
+		--frame-width: clamp(3.375rem, 7.2vw, 4.95rem);
 		margin-block: clamp(2rem, 5vw, 3.25rem);
 		font-family: var(--font-display);
 		font-size: clamp(1.65rem, 3.36vw, 2.55rem);
@@ -81,9 +81,8 @@ const words = phrase.split(" ");
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		column-gap: 0.27em;
-		row-gap: 0.2em;
 	}
 
 	.trail-word {
@@ -94,6 +93,9 @@ const words = phrase.split(" ");
 
 	.letter {
 		position: relative;
+		/* The line never wraps, so letters must not be shrunk back by the flex
+		   line when a frame opens. */
+		flex: none;
 		display: inline-grid;
 		place-items: center;
 		block-size: 1.55em;
@@ -111,10 +113,10 @@ const words = phrase.split(" ");
 		position: absolute;
 		inset: 0.05em 0;
 		z-index: -1;
-		border-radius: calc(var(--radius-media) * 0.5);
 		background-image: var(--trail-image);
 		background-position: center;
-		background-size: cover;
+		background-repeat: no-repeat;
+		background-size: contain;
 		opacity: 0;
 		transform: scale(0.96) rotate(var(--trail-rotation, 0deg));
 		transition: opacity 220ms ease, transform 300ms var(--ease-out);
@@ -135,7 +137,7 @@ const words = phrase.split(" ");
 			pointer-events: auto;
 		}
 
-		.letter.is-active {
+		.letter[data-letter].is-active {
 			inline-size: var(--frame-width);
 		}
 
@@ -150,8 +152,13 @@ const words = phrase.split(" ");
 	}
 
 	@media (max-width: 520px) {
+		.trail-copy {
+			flex-wrap: wrap;
+			row-gap: 0.2em;
+		}
+
 		.trail {
-			--frame-width: clamp(3.25rem, 18vw, 4.25rem);
+			--frame-width: clamp(2.925rem, 16.2vw, 3.825rem);
 			font-size: clamp(1.5rem, 7.4vw, 1.9rem);
 		}
 	}
@@ -195,13 +202,35 @@ const words = phrase.split(" ");
 		const timers = new Map<HTMLElement, number>();
 		let resizeTimer = 0;
 
-		const cap = () => (window.innerWidth < 720 ? 2 : window.innerWidth < 1000 ? 3 : 5);
+		const cap = () => (window.innerWidth < 720 ? 5 : window.innerWidth < 1000 ? 8 : 12);
+
+		const copy = trail.querySelector<HTMLElement>(".trail-copy");
+
+		/* The phrase must stay on a single line, so the frame can only claim the
+		   horizontal slack the line has left over once every letter is measured. */
+		const fitFrame = (natural: number) => {
+			if (!copy) return;
+			const slack = trail.clientWidth - natural;
+			const widest = letters.reduce((max, letter) => Math.max(max, letter.offsetWidth), 0);
+			const frame = widest + Math.max(0, slack) / cap();
+			/* The bean is square, so a frame wider than it is tall only adds dead
+			   space between beans once background-size: contain has fitted it. */
+			const ceiling = letters[0]?.offsetHeight ?? 0;
+			trail.style.setProperty("--frame-width", `${Math.max(widest, Math.min(frame, ceiling)).toFixed(1)}px`);
+		};
 
 		const measure = () => {
+			trail.style.removeProperty("--frame-width");
 			letters.forEach((letter) => letter.style.removeProperty("--letter-width"));
+			const words = copy ? [...copy.querySelectorAll<HTMLElement>(".trail-word")] : [];
+			const gap = copy ? parseFloat(getComputedStyle(copy).columnGap) || 0 : 0;
+			const natural =
+				words.reduce((total, word) => total + word.getBoundingClientRect().width, 0) +
+				gap * Math.max(0, words.length - 1);
 			letters.forEach((letter) => {
 				letter.style.setProperty("--letter-width", `${letter.getBoundingClientRect().width}px`);
 			});
+			fitFrame(natural);
 		};
 
 		const deactivate = (letter: HTMLElement) => {
@@ -224,7 +253,7 @@ const words = phrase.split(" ");
 				if (oldest) deactivate(oldest);
 			}
 
-			timers.set(letter, window.setTimeout(() => deactivate(letter), 1200));
+			timers.set(letter, window.setTimeout(() => deactivate(letter), 1800));
 		};
 
 		measure();
