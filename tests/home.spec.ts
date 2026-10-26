@@ -68,20 +68,20 @@ test('Spanish route renders localized content and language state', async ({ page
   const response = await page.goto('/es/');
   expect(response?.status()).toBe(200);
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-  await expect(page).toHaveTitle(/Cacao regenerativo desde el origen/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Cacao regenerativo desde el origen');
+  await expect(page).toHaveTitle(/Cacao premium desde un sistema vivo/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Cacao premium, cultivado en un sistema vivo');
   await expect(page.getByRole('navigation', { name: 'Navegación principal' })).toContainText('Trazabilidad');
   await expect(page.locator('.nav-language a[lang="es"]')).toHaveAttribute('aria-current', 'page');
 
-  await page.getByText('Especificación completa', { exact: true }).click();
+  await page.getByText('Qué hay detrás del lote', { exact: true }).click();
   await expect(page.getByText('Cultivo y poscosecha', { exact: true })).toBeVisible();
 
-  const requestButton = page.getByRole('button', { name: 'Solicitar muestras' }).first();
+  const requestButton = page.getByRole('button', { name: 'Solicitar una muestra del lote' }).first();
   await expect(requestButton).toBeVisible();
   await requestButton.click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Cuéntanos qué necesitas comprar' })).toBeVisible();
-  await page.getByRole('button', { name: 'Enviar consulta' }).click();
+  await expect(page.getByRole('heading', { name: 'Cuéntanos qué necesitas' })).toBeVisible();
+  await page.getByRole('button', { name: 'Solicitar muestra' }).click();
   await expect(page.getByText('Este campo es obligatorio.').first()).toBeVisible();
 });
 
